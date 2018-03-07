@@ -18,7 +18,7 @@ stages:
   - Preparation
   - Technical checks
   - ATLAS checks
-  - Organize Figures
+  - Organize
   - Finalize
   - Build
   - Packaging
@@ -27,7 +27,8 @@ stages:
 # -- VARIABLES --
 variables:
   DOCNAME: ANA-GENR-2018-01-INT1
-  MAND_TAG: "2.2.1"
+  MAND_TAG: 3.0.1
+  IMAGE_POTL: gitlab-registry.cern.ch/atlas-physics-office/gitlab-integration/potl-2016
   FROZEN: newest
 # -- END OF VARIABLES --
 
@@ -41,7 +42,7 @@ variables:
 
 .version-check: &version-check
   script:
-    - pogitlab --validate
+    - pogitlab --validate --doc $DOCNAME
   artifacts:
     paths:
       - gitlab-ci.yml.update
@@ -68,7 +69,7 @@ variables:
     - rm -rf *.bak *.aux .*bcf *.blg .*.lb *.fdb_latexmk *.fls
     - rm -rf *.log *.out *.run.xml *.spl *.synctex.gz *.toc *.lof *.lot *.synctex.gz
   dependencies:
-    - Update figures
+    - Clean Auxmat
   artifacts:
     expire_in: 1 week
     paths:
@@ -82,7 +83,7 @@ variables:
     expire_in: 1 week
     paths:
       - flattened
-      - tarfiles
+      - "*tar.gz"
 
 # ######################################
 # Preparation
@@ -106,10 +107,31 @@ Figures exist:
           - checkFiguresExist.log
       when: on_failure
 
+Files exist:
+  stage: Technical checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --inputs
+  <<: *pofilter
+  artifacts:
+      paths:
+          - checkFiguresExist.log
+      when: on_failure
+
+Repeated commands:
+  stage: Technical checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --repcommands
+  <<: *pofilter
+  artifacts:
+      paths:
+          - repeatedCommands.log
+      when: on_failure
+
 # Check for undefined references
 Undefined references:
   stage: Technical checks
   script: pogitlab --doc $DOCNAME --undrefs
+  allow_failure: true
   <<: *pofilter
   artifacts:
       paths:
@@ -183,10 +205,6 @@ Cover logo:
   allow_failure: true
   script: pogitlab --doc $DOCNAME --cover
   <<: *pofilter
-  artifacts:
-    paths:
-        - checkCover.log
-    when: on_failure
 
 # Check bibliography files
 Bibliography:
@@ -199,11 +217,18 @@ Bibliography:
         - checkBibfiles.log
     when: on_failure
 
-# Check for new commands in Title and Abstract
-Newcommands:
+# Check that the cern preprint ID
+Preprint ID:
   stage: ATLAS checks
   allow_failure: true
-  script: pogitlab --doc $DOCNAME --newcom
+  script: pogitlab --doc $DOCNAME --preprintid
+  <<: *pofilter
+
+# Check for new commands in Title and Abstract
+Title and Abstract:
+  stage: ATLAS checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --tabstract
   <<: *pofilter
   artifacts:
     paths:
@@ -230,7 +255,6 @@ texlive-2016:pdf:
   except:
     - tags
     - /^PO-.*/
-  allow_failure: true
   artifacts:
     expire_in: 1 week
     paths:
@@ -258,38 +282,63 @@ Flatten document:
   <<: *onlypo
   script:
     - pogitlab --doc $DOCNAME --flatten
-  <<: *flat_art
-
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
 
 Copy ATLAS template:
   stage: Preparation
   <<: *onlypo
   script:
     - pogitlab --doc $DOCNAME --cpsty
-  <<: *flat_art
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
 
 Copy bibliography:
   stage: Preparation
   <<: *onlypo
   script:
     - pogitlab --doc $DOCNAME --cpbib
-  <<: *flat_art
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
 
-Copy figures:
-  stage: Organize Figures
+Figures:
+  stage: Organize
   <<: *onlypo
   script:
-    - pogitlab --doc $DOCNAME --cpfigures
-  <<: *flat_art
+    - pogitlab --doc $DOCNAME --tarfigs
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+      - copyFigures.log
+  
+Tables:
+  stage: Organize
+  image: $IMAGE_POTL
+  <<: *onlypo
+  script:
+    - pogitlab --doc $DOCNAME --tartables
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+      - copyTables.log
 
-Update figures:
+Clean Auxmat:
   stage: Finalize
   <<: *onlypo
-  dependencies:
-    - Copy figures
   script:
-    - pogitlab --doc $DOCNAME --updatefigs
-  <<: *flat_art
+    - pogitlab --doc $DOCNAME --flatten --avoidaux
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
 
 Publication tar:
   stage: Packaging
@@ -299,13 +348,16 @@ Publication tar:
   script:
     - cd flattened
     - rm $DOCNAME.pdf
-    - tar -czvf $DOCNAME.tar.gz $(ls | grep -v .txt)
+    - tar -czvf $DOCNAME.tar.gz $(ls | grep -v .txt | grep -v tab_)
     - cd ..
-    - mkdir -p tarfiles
-    - mv flattened/*tar.gz tarfiles
-  <<: *flat_art
+    - mv flattened/$DOCNAME.tar.gz publication.tar.gz
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+      - publication.tar.gz
 
-Figures tar:
+Webpage tar:
   stage: Packaging
   <<: *onlypo
   dependencies:
@@ -313,11 +365,14 @@ Figures tar:
   script:
     - cd flattened
     - rm $DOCNAME.pdf
-    - tar -czvf $DOCNAME.tar.gz fig*{txt,pdf}
+    - tar -czvf $DOCNAME.tar.gz {tab,fig}*{txt,pdf}
     - cd ..
-    - mkdir -p tarfiles
-    - mv flattened/*tar.gz tarfiles
-  <<: *flat_art
+    - mv flattened/$DOCNAME.tar.gz webpages.tar.gz
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+      - webpages.tar.gz
 
 Build 2016:
   <<: *texlive2016
