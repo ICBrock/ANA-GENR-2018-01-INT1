@@ -1,0 +1,325 @@
+####################################################
+#
+# Gitlab CI for automatic checks of papers and notes
+# This will take care of running the needed steps
+# for checking everything
+#
+#################################################################
+#
+# THIS FILE IS AUTOMATICALLY PRODUCED AND UPDATED BY THE CI TOOLS
+# DON'T MODIFY THIS FILE !!!!!
+#
+#################################################################
+
+image: gitlab-registry.cern.ch/atlas-physics-office/gitlab-integration/pogitlab
+
+# Define the different stages
+stages:
+  - Preparation
+  - Technical checks
+  - ATLAS checks
+  - Organize Figures
+  - Finalize
+  - Build
+  - Packaging
+
+
+# -- VARIABLES --
+variables:
+  DOCNAME: ANA-GENR-2018-01-INT1
+  MAND_TAG: "2.2.1"
+  FROZEN: newest
+# -- END OF VARIABLES --
+
+.pofilter: &pofilter
+  except:
+    - /^PO-.*/
+
+.onlypo: &onlypo
+  only:
+    - /^PO-.*/
+
+.version-check: &version-check
+  script:
+    - pogitlab --validate
+  artifacts:
+    paths:
+      - gitlab-ci.yml.update
+    when: on_failure
+
+
+.build_template: &build_template
+  stage: Build
+  before_script:
+    - rm -rf *.bbl *.bak *.aux .*bcf *.blg .*.lb *.fdb_latexmk *.fls
+    - rm -rf *.log *.out *.run.xml *.spl *.synctex.gz *.toc *.lof *.lot *.synctex.gz
+  script:
+    - make BASENAME=$DOCNAME
+
+.build_po: &build_po
+  stage: Build
+  before_script:
+    - rm -rf *.bbl *.bak *.aux .*bcf *.blg .*.lb *.fdb_latexmk *.fls
+    - rm -rf *.log *.out *.run.xml *.spl *.synctex.gz *.toc *.lof *.lot *.synctex.gz
+  script:
+    - cd flattened
+    - make BASENAME=$DOCNAME
+    - rm Makefile
+    - rm -rf *.bak *.aux .*bcf *.blg .*.lb *.fdb_latexmk *.fls
+    - rm -rf *.log *.out *.run.xml *.spl *.synctex.gz *.toc *.lof *.lot *.synctex.gz
+  dependencies:
+    - Update figures
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+
+.texlive2016: &texlive2016
+  image: gitlab-registry.cern.ch/atlas-physics-office/gitlab-integration/texlive:2016
+
+.flat_art: &flat_art
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+      - tarfiles
+
+# ######################################
+# Preparation
+# ######################################
+
+Version check:
+  stage: Preparation
+  <<: *version-check
+
+# ######################################
+# Run needed checks for the Technical checks
+# ######################################
+
+Figures exist:
+  stage: Technical checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --figs
+  <<: *pofilter
+  artifacts:
+      paths:
+          - checkFiguresExist.log
+      when: on_failure
+
+# Check for undefined references
+Undefined references:
+  stage: Technical checks
+  script: pogitlab --doc $DOCNAME --undrefs
+  <<: *pofilter
+  artifacts:
+      paths:
+          - checkUndefinedReferences.log
+      when: on_failure
+
+# Check for repeated labels
+Repeated labels:
+  stage: Technical checks
+  allow_failure: true
+  script: pogitlab  --doc $DOCNAME --replabels
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkRepeatedLabels.log
+    when: on_failure
+
+# Check for repeated labels
+Unused labels:
+  stage: Technical checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --unlabels
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkUnusedLabels.log
+    when: on_failure
+
+# ######################################
+#
+# Run needed checks for the ATLAS checks
+#
+# ######################################
+
+# Check that the runner works for figure size
+Oversized figures:
+  allow_failure: true
+  stage: ATLAS checks
+  script: pogitlab --doc $DOCNAME --fsize
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkFiguresSize.log
+    when: on_failure
+
+# Check that the runner works for labels
+Figures labels:
+  stage: ATLAS checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --flabels
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkFiguresLabels.log
+    when: on_failure
+
+# Check if the runner works for template check
+Template version:
+  stage: ATLAS checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME  --temp --frozen $FROZEN
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkTemplateVersion.log
+    when: on_failure
+
+# Check for proper cover
+Cover logo:
+  stage: ATLAS checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --cover
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkCover.log
+    when: on_failure
+
+# Check bibliography files
+Bibliography:
+  stage: ATLAS checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --bib
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkBibfiles.log
+    when: on_failure
+
+# Check for new commands in Title and Abstract
+Newcommands:
+  stage: ATLAS checks
+  allow_failure: true
+  script: pogitlab --doc $DOCNAME --newcom
+  <<: *pofilter
+  artifacts:
+    paths:
+        - checkNewCommands.log
+    when: on_failure
+
+# ######################################
+#
+# Run Build
+#
+# ######################################
+
+texlive-2016:check:
+  <<: *texlive2016
+  <<: *build_template
+  except:
+    - tags
+    - /PO-.*/
+
+texlive-2016:pdf:
+  <<: *texlive2016
+  <<: *build_template
+  when: manual
+  except:
+    - tags
+    - /^PO-.*/
+  allow_failure: true
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - $DOCNAME.pdf
+
+texlive-2016:tag:
+  <<: *texlive2016
+  <<: *build_template
+  only:
+    - tags
+  <<: *pofilter
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - $DOCNAME.pdf
+
+# ######################################
+#
+# Run checks in PO-ready
+#
+# ######################################
+
+Flatten document:
+  stage: Preparation
+  <<: *onlypo
+  script:
+    - pogitlab --doc $DOCNAME --flatten
+  <<: *flat_art
+
+
+Copy ATLAS template:
+  stage: Preparation
+  <<: *onlypo
+  script:
+    - pogitlab --doc $DOCNAME --cpsty
+  <<: *flat_art
+
+Copy bibliography:
+  stage: Preparation
+  <<: *onlypo
+  script:
+    - pogitlab --doc $DOCNAME --cpbib
+  <<: *flat_art
+
+Copy figures:
+  stage: Organize Figures
+  <<: *onlypo
+  script:
+    - pogitlab --doc $DOCNAME --cpfigures
+  <<: *flat_art
+
+Update figures:
+  stage: Finalize
+  <<: *onlypo
+  dependencies:
+    - Copy figures
+  script:
+    - pogitlab --doc $DOCNAME --updatefigs
+  <<: *flat_art
+
+Publication tar:
+  stage: Packaging
+  <<: *onlypo
+  dependencies:
+    - "Build 2016"
+  script:
+    - cd flattened
+    - rm $DOCNAME.pdf
+    - tar -czvf $DOCNAME.tar.gz $(ls | grep -v .txt)
+    - cd ..
+    - mkdir -p tarfiles
+    - mv flattened/*tar.gz tarfiles
+  <<: *flat_art
+
+Figures tar:
+  stage: Packaging
+  <<: *onlypo
+  dependencies:
+    - "Build 2016"
+  script:
+    - cd flattened
+    - rm $DOCNAME.pdf
+    - tar -czvf $DOCNAME.tar.gz fig*{txt,pdf}
+    - cd ..
+    - mkdir -p tarfiles
+    - mv flattened/*tar.gz tarfiles
+  <<: *flat_art
+
+Build 2016:
+  <<: *texlive2016
+  <<: *build_po
+  <<: *onlypo
