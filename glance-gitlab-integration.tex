@@ -1,0 +1,38 @@
+\begin{itemize}
+\item Glance/Fence technology introduction:
+http://monografias.poli.ufrj.br/monografias/monopoli10014830.pdf and http://monografias.poli.ufrj.br/monografias/monopoli10021571.pdf
+
+\item Analysis Glance introduction:
+For many years ATLAS has been using Glance to support the approval process of Papers, CONF and PUB notes. Since always they were considered independent systems, so they had different creation and search interfaces and also different workflows, all starting from its own Phase 1.
+
+As we recently moved from SVN to Gitlab, this has triggered the need of Glance interface that could automatically create and configure Gitlab repositories.
+
+\item Phase 0 introduction:
+Will be common to Papers, CONF and PUB notes workflows, before Phase 1
+Will store some metadata, if needed
+Will automatically create Gitlab workspace for ANY Paper related document
+Will provide egroups so editors can communicate
+
+Now, instead of having 3 different creation interfaces (one for Paper, another for CONF note and another for PUB notes) we have only one where PGC can create a new Analysis that contain a Phase 0.
+
+At Analysis creation, some basic metadata are required as short title, full title, leading group and so on and will be inherited by the publication that the Analysis will turn into in the future.
+
+After the creation of a new Analysis, the first Gitlab integration happens, Glance automatically creates the first internal document repository on Gitlab and editors can already start working on it.
+
+\item Phase 0 workflow introduction:
+At the beginning of phase 0 it's possible to add as many internal documents repository as needed, if 1 isn't enough, and also one for a Paper, one for a CONF and one for a PUB.
+
+The Phase 0 itself will be a new workflow with some steps that works very similarly to the ones we have nowadays for Phase 1, 2 or submission, with proceed and save buttons. The last step of this workflow is to create a Glance Paper or CONF note entry.
+
+Detectors groups, those who need PUB notes or even Internal note for local reviews in sub-systems don’t have the necessity to go through the workflow, so they will have the permission to skip the workflow and go directly to the Glance creation of a any type of publication.
+
+Also, if at any point the PGC decides that the Analysis should be discontinued, he/she can requests its deletion or clone into a new Analysis.
+
+\item Building a search interface with Fence: ?
+Source in Bruno's thesis
+
+\item Building a workflow using Fence:
+Make correlation with Graph theory;
+How to define steps and actions: steps contains fields, actions can be save, proceed, skip, rollback, reset, egroups update, automatic messages ...
+
+\end{itemize}
