@@ -3,10 +3,14 @@
 % In your own directory, you may of course change this as you like.
 % If you want to change or add something publicly, contact the responsible.
 %
-% See ChangeLog or SVN log for history of changes.
+% See ChangeLog or Git log for history of changes.
 % Responsible: Ian Brock (ian.brock@cern.ch)
+%
+% Note that this file can be overwritten when atlaslatex is updated.
+%
+% Copyright (C) 2002-2018 CERN for the benefit of the ATLAS collaboration
 %-------------------------------------------------------------------------------
-\ProvidesPackage{latex/atlasphysics}[2018/01/10 v.05-03-00 ATLAS physics macros]
+\ProvidesPackage{latex/atlasphysics}[2018/10/29 v.05-09-00 ATLAS physics macros]
 \NeedsTeXFormat{LaTeX2e}
 
 %-------------------------------------------------------------------------------
@@ -33,6 +37,7 @@
 \DeclareBoolOption[false]{hepprocess}
 \DeclareBoolOption[true]{particle}
 \DeclareBoolOption[false]{process}
+\DeclareBoolOption[false]{snippets}
 \DeclareBoolOption[true]{unit}
 \DeclareBoolOption[true]{xref}
 \DeclareStringOption[2016]{texlive}
@@ -75,6 +80,9 @@
 
 % Other maybe useful definitions
 \ifAPHY@other    \RequirePackage{\APHY@atlasdir atlasother} \fi
+
+% Text snippets
+\ifAPHY@snippets \RequirePackage{\APHY@atlasdir atlassnippets} \fi
 
 % Particles
 % Load either atlasparticle or atlashepparticle, but not both.

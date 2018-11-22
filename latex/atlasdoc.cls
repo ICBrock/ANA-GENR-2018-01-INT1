@@ -1,12 +1,16 @@
 %-------------------------------------------------------------------------------
 % Template class for ATLAS documents
 %
-% See ChangeLog or SVN log for history of changes.
+% See ChangeLog or Git log for history of changes.
 % Responsible: Ian Brock (ian.brock@cern.ch)
+%
+% Note that this file can be overwritten when atlaslatex is updated.
+%
+% Copyright (C) 2002-2018 CERN for the benefit of the ATLAS collaboration
 %-------------------------------------------------------------------------------
-\def\ATPackageVersion{05-03-00}
+\def\ATPackageVersion{05-09-00}
 
-\ProvidesClass{latex/atlasdoc}[2018/01/10 v.05-03-00 ATLAS document class]
+\ProvidesClass{latex/atlasdoc}[2018/10/29 v.05-09-00 ATLAS document class]
 % Needs 2009 TeX Live or later
 \NeedsTeXFormat{LaTeX2e}[2009/01/01]
 
@@ -506,7 +510,7 @@
   \ifthenelse{\ADOC@texlive < 2015}{%
     \RequirePackage[headsepline]{scrpage2}
   }{%
-  \RequirePackage[headsepline]{scrlayer-scrpage}
+    \RequirePackage[headsepline]{scrlayer-scrpage}
   }
   \ihead{}
   \chead[]{\fbox{\textsf\bfseries ATLAS DRAFT}}
@@ -524,7 +528,7 @@
   }{%
     \RequirePackage[headsepline]{scrlayer-scrpage}
   }
-  \chead{ATLAS Collaboration -- arXiv:\AtlasArXivId\ \AtlasArXivCat}
+  \chead{ATLAS Collaboration --- arXiv:\AtlasArXivId\ \AtlasArXivCat}
   \pagestyle{scrheadings}
 \fi
 
@@ -845,20 +849,25 @@
 % \addtolength{\abstractparbox}{-2\fboxsep}
 \newlength{\abstractheight}
 \setlength{\abstractheight}{0.50\textheight}
+% Add 5em to title height for notes
+% \ifADOC@NOTE
+%   \addtolength{\abstractheight}{-5em}
+% \fi
 \addtolength{\abstractheight}{-\ADOC@titleextraheight}
 \newlength{\copyrightoffset}
 \ifthenelse{\equal{\ADOC@maintitlesize}{small}}{%
-  \setlength{\copyrightoffset}{-7.5em}
+  \setlength{\copyrightoffset}{-8.0em}
 }{%
-  \setlength{\copyrightoffset}{-7.5em}
+  \setlength{\copyrightoffset}{-8.0em}
 }
 \addtolength{\copyrightoffset}{\ADOC@copyrightoffset}
 \newcommand{\AtlasAbstractCopyright}{%
-  \vspace*{\stretch{1}}
+  % \vspace*{\stretch{1}}
   % \fbox{\begin{minipage}[b][\abstractheight]{\abstractparbox}
   \begin{minipage}[b][\abstractheight]{\abstractparbox}
-    % Astract
-    \if\AtlasAbstractText\@empty
+    % Abstract
+  % \vspace*{\stretch{1}}
+  \if\AtlasAbstractText\@empty
       \mbox{}
     \else
       \begin{quote}\ADOC@abstractsize
@@ -949,6 +958,7 @@
   \fi
 \else
   \publishers{\vspace*{\fill}\normalsize\rmfamily\AtlasAbstractCopyright}
+  % \publishers{\normalsize\rmfamily\AtlasAbstractCopyright}
 \fi
 
 \AtBeginDocument{%
