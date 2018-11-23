@@ -27,7 +27,7 @@ stages:
 # -- VARIABLES --
 variables:
   DOCNAME: ANA-GENR-2018-01-INT1
-  MAND_TAG: 3.0.1
+  MAND_TAG: 4.0.0
   IMAGE_POTL: gitlab-registry.cern.ch/atlas-physics-office/gitlab-integration/potl-2016
   FROZEN: newest
 # -- END OF VARIABLES --
@@ -71,12 +71,16 @@ variables:
   dependencies:
     - Clean Auxmat
   artifacts:
+    name: "$CI_JOB_NAME"
     expire_in: 1 week
     paths:
       - flattened
 
 .texlive2016: &texlive2016
   image: gitlab-registry.cern.ch/atlas-physics-office/gitlab-integration/texlive:2016
+
+.texlive2017: &texlive2017
+  image: gitlab-registry.cern.ch/atlas-physics-office/gitlab-integration/texlive:2017
 
 .flat_art: &flat_art
   artifacts:
@@ -271,6 +275,36 @@ texlive-2016:tag:
     paths:
       - $DOCNAME.pdf
 
+texlive-2017:check:
+  <<: *texlive2017
+  <<: *build_template
+  except:
+    - tags
+    - /PO-.*/
+
+texlive-2017:pdf:
+  <<: *texlive2017
+  <<: *build_template
+  when: manual
+  except:
+    - tags
+    - /^PO-.*/
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - $DOCNAME.pdf
+
+texlive-2017:tag:
+  <<: *texlive2017
+  <<: *build_template
+  only:
+    - tags
+  <<: *pofilter
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - $DOCNAME.pdf
+
 # ######################################
 #
 # Run checks in PO-ready
@@ -318,7 +352,7 @@ Figures:
       - flattened
       - copyFigures.log
   
-Tables:
+Tables Texlive:
   stage: Organize
   image: $IMAGE_POTL
   <<: *onlypo
@@ -340,7 +374,7 @@ Clean Auxmat:
     paths:
       - flattened
 
-Publication tar:
+arXiv tar TL16:
   stage: Packaging
   <<: *onlypo
   dependencies:
@@ -348,20 +382,40 @@ Publication tar:
   script:
     - cd flattened
     - rm $DOCNAME.pdf
+    - rm figaux*
     - tar -czvf $DOCNAME.tar.gz $(ls | grep -v .txt | grep -v tab_)
     - cd ..
-    - mv flattened/$DOCNAME.tar.gz publication.tar.gz
+    - mv flattened/$DOCNAME.tar.gz publicationTL2016.tar.gz
   artifacts:
     expire_in: 1 week
     paths:
       - flattened
-      - publication.tar.gz
+      - publicationTL2016.tar.gz
+
+APS tar TL17:
+  stage: Packaging
+  <<: *onlypo
+  dependencies:
+    - "Build 2017"
+  script:
+    - cd flattened
+    - rm $DOCNAME.pdf
+    - rm figaux*
+    - tar -czvf $DOCNAME.tar.gz $(ls | grep -v .txt | grep -v tab_)
+    - cd ..
+    - mv flattened/$DOCNAME.tar.gz publicationTL2017.tar.gz
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - flattened
+      - publicationTL2017.tar.gz      
 
 Webpage tar:
   stage: Packaging
   <<: *onlypo
   dependencies:
     - "Build 2016"
+    - "Build 2017"
   script:
     - cd flattened
     - rm $DOCNAME.pdf
@@ -376,5 +430,10 @@ Webpage tar:
 
 Build 2016:
   <<: *texlive2016
+  <<: *build_po
+  <<: *onlypo
+
+Build 2017:
+  <<: *texlive2017
   <<: *build_po
   <<: *onlypo
