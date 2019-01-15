@@ -46,9 +46,9 @@ rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst 
 EPSTOPDFFILES = $(call rwildcard, $(FIGSDIR), *eps-converted-to.pdf)
 
 # Default target - make mydocument.pdf with pdflatex
-# default: run_pdflatex
+default: run_pdflatex
 # Use latexmk instead to compile
-default: run_latexmk
+# default: run_latexmk
 
 .PHONY: run_latexmk
 .PHONY: newdocument newdocumenttexmf newnotemetadata newpapermetadata newfiles
@@ -175,11 +175,11 @@ dvips:	$(BASENAME).dvi
 
 help:
 	@echo "To create a new paper/CONF Note/PUB Note draft give the command:"
-	@echo "make newpaper [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make newpaper [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo "To create a new ATLAS note draft give the command:"
-	@echo "make newnote [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make newnote [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo "To create a long document (book) like a TDR:"
-	@echo "make newbook [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make newbook [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo ""
 	@echo "To compile the paper give the command"
 	@echo "make"
@@ -190,18 +190,18 @@ help:
 	@echo "You can also adjust the 'default' target."
 	@echo ""
 	@echo "If atlaslatex is installed centrally, e.g. in ~/texmf:"
-	@echo "make newpapertexmf|newnotetexmf|newbooktemf [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make newpapertexmf|newnotetexmf|newbooktemf [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo ""
 	@echo "If you need a standalone draft cover give the commands:"
-	@echo "make draftcover [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make draftcover [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo "pdflatex mydocument-draft-cover"
 	@echo ""
 	@echo "If you need a standalone preprint cover give the commands:"
-	@echo "make preprintcover [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make preprintcover [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo "pdflatex mydocument-preprint-cover"
 	@echo ""
 	@echo "If you need a document for HepData material give the commands:"
-	@echo "make newdata [BASENAME = ANA-GENR-2018-01-INT1
+	@echo "make newdata [BASENAME=mydocument] [TEXLIVE=YYYY]"
 	@echo "pdflatex mydocument-hepdata-main"
 	@echo ""
 	@echo "make clean    to clean auxiliary files (not output PDF)"
