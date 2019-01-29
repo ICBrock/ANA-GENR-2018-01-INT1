@@ -3,10 +3,10 @@
 
 The Physics Office GitLab project aims to simplify the ATLAS documents (papers, CONF-Notes, internal notes...) creation, editing and publication process by using the tools provided by the CERN GitLab system. The usual publication workflow consisted on a heavy e-mail communication between ATLAS editors and Physics Office in order to ensure that ATLAS rules were beeing followed before being able to submit the desired paper to arXiv or to the journal of choice. This approach lead, usually, to modifications done in different sides (Officers and editors) not properly implemented by the other side which slows down the process due to small details which with a different approach would be easily fixeable.
 
-There are three main areas modified by the PO-GitLab approach with the goal of simplifying this process. These areas are the automatic creation of the document GitLab projects (git repositories in a centralized way), the real-time check by the GitLab Continuous Integration (CI) tools of the documents being written and the automatic processing of the document to ensure a smooth publication process. These areas are descrived in detail in this section.
+There are three main areas modified by the PO-GitLab approach with the goal of simplifying this process. These areas are the automatic creation of the document GitLab projects (git repositories in a centralized way), the real-time check by the GitLab Continuous Integration (CI) tools of the documents being written and the automatic processing of the document to ensure a smooth publication process. These areas are described in detail in this section.
 
 \subsection{Automatic document creation}
-First, a centralized area controlled by ATLAS Physics Office needs to be dessigned. The control is key in order to allow Physics Office to maintain quality controls over the document being accepted for publication. The ATLAS Physics Office GitLab group (Described in \Sect{\ref{sec:pogitlab-group}}) has been created. This GitLab group (a set of users, subgroups and projects) hosts the git repositories of ATLAS Physics Office tools as well as subgroups, one for each physics group as defined in Glance.
+First, a centralized area controlled by ATLAS Physics Office needs to be designed. The control is key in order to allow Physics Office to maintain quality controls over the document being accepted for publication. The ATLAS Physics Office GitLab group (Described in \Sect{\ref{sec:pogitlab-group}}) has been created. This GitLab group (a set of users, subgroups and projects) hosts the git repositories of ATLAS Physics Office tools as well as subgroups, one for each physics group as defined in Glance.
 
 Since there is a centralized and standardize place to host and maintain the document repositories, these are created automatically for each analysis group once they are created in Glance in the Analysis interface. This means that the creation of configuration of the repositories holding the document is done without any input from the editor's side allowing for a quick process.
 
@@ -28,7 +28,7 @@ GitLab's CI works in Pipelines; each a time a new commit is pushed to the reposi
   \end{itemize}
   \item \textbf{ATLAS checks:} These are checks related to ATLAS rules and style:
   \begin{itemize}
-    \item \textit{Bibliography:} checks that the bigliography files are included.
+    \item \textit{Bibliography:} checks that the bibliography files are included.
     \item \textit{Cover logo:} checks that the proper logo is being used in the ATLAS template.
     \item \textit{Figures labels:} checks for labels in figures depending on the type of document. \Tab{\ref{tab:labels-files}} shows the different labels which are allowed and not allowed in different files.
     \item \textit{Oversized figures:} checks for figures larger than 2~Mb.
@@ -36,7 +36,7 @@ GitLab's CI works in Pipelines; each a time a new commit is pushed to the reposi
     \item \textit{Template version:} checks that the version of the ATLAS \LaTeX\ template is the latest one available.
     \item \textit{Title and Abstract:} checks that no user-defined commands (i.e. not \LaTeX\ commands) are being used nor in the title neither in the abstract.
   \end{itemize}
-  \item \textbf{Build:} this stage builds the document itself. The pdf of the document is not usually saved to avoid increase in size of the repository but manual job (only run when manually asked) builds de document and save the pdf as an artifact for the user to download.
+  \item \textbf{Build:} this stage builds the document itself. The pdf of the document is not usually saved to avoid increase in size of the repository but manual job (only run when manually asked) builds the document and saves the pdf as an artifact for the user to download.
 \end{itemize}
 
 \begin{figure}[ht!]
