@@ -1,0 +1,33 @@
+\section*{Appendix 6}
+\label{sec:app6}
+
+\begin{lstlisting}
+"pub_short_title": {
+                "label": "Public short title",
+                "sublabel": "Plain text, no LaTeX",
+                "type": "textarea",
+                "rules": {
+                    "maxlength": 1000,
+                    "character_not_allowed": ["\\", "$"]
+                },
+                "analysis_roles": [
+                        "GROUP_CONVENER",
+                        "SUBGROUP_CONVENER",
+                        "PROJECT_LEADER"
+                ]
+            }
+\end{lstlisting}
+
+Taking the “GROUP$\_$CONVENER” role as an example, it uses the following method to grant permission to edit the Public short title field:
+
+\begin{lstlisting}
+public function is_subgroup_convener($publication_id = null)
+{
+        if ($publication_id === null) return false;
+        foreach ($this->subgroup_convener_publications as $line => $row) {
+                if (strpos($row['PUB_LIST'], strval($publication_id)) !== FALSE) return true;
+        }
+        return false;
+}
+
+\end{lstlisting}

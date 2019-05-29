@@ -1,0 +1,16 @@
+\section*{Appendix 8}
+\label{sec:app8}
+
+\begin{lstlisting}
+private function execMethod($method, $endPoint, $data = null)
+{
+    $this->init($endPoint);
+    $this->setMethod($method);
+    if ($data) {
+        $this->setBodyData($data);
+    }
+
+    return $this->exec();
+}
+
+\end{lstlisting}

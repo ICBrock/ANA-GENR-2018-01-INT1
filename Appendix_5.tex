@@ -1,0 +1,14 @@
+\section*{Appendix 5}
+\label{sec:app5}
+
+\begin{lstlisting}
+public function is_expert() 
+{
+    return $this->has_egroup("MailboxForwarding-atglance") || $this->has_egroup("fence-developers");
+}
+
+public function hasPermission($permission)
+{
+    return in_array($permission, $this->permissions);
+}
+\end{lstlisting}

@@ -1,0 +1,42 @@
+\section*{Appendix 2}
+\label{sec:app2}
+
+\begin{lstlisting}
+class Action
+{
+    protected $inputs;
+    protected $outputs;
+    protected $callback;
+
+    public function __construct()
+    {
+        $this->inputs = array();
+        $this->outputs = array();
+    }
+
+    public function setCallback($callback)
+    {
+        $this->callback = $callback;
+    }
+
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    public function setInputs($inputs)
+    {
+        $this->inputs = $inputs;
+    }
+
+    public function trigger()
+    {
+        $this->outputs = call_user_func_array($this->callback, $this->inputs);
+    }
+
+    public function getOutputs()
+    {
+        return $this->outputs;
+    }
+}
+\end{lstlisting}

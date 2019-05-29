@@ -1,0 +1,54 @@
+\section*{Appendix 3}
+\label{sec:app3}
+
+\begin{lstlisting}
+{
+    "label" : "Analysis definition after EOI meeting",
+    "identifier" : "analysis_definition",
+    "inputs" : [
+        {
+            "label": "Main physics aim",
+            "name": "main_physics_aim",
+            "about": "",
+            "type": "textarea",
+            "rules": {
+                "maxlength": 500
+            },
+            "edit": {
+                "usergroups": [
+                    "GROUP_CONVENER",
+                    "SUBGROUP_CONVENER",
+                    "PROJECT_LEADER"
+                ]
+            }
+        }
+    ],
+    "actions" : [
+        {
+            "next_state" : "analysis_coordinators_selection",
+            "callback": {
+                "class": "Atlas\\Analysis\\Analysis\\WorkflowActions",
+                "method": "proceed"
+            },
+            "usergroups": [
+                "GROUP_CONVENER",
+                "SUBGROUP_CONVENER",
+                "PROJECT_LEADER"
+            ]
+        }
+    ],
+    "notifications" : [
+        {
+            "template" : "EOI_MEETING_RESULTS",
+            "task": "proceed",
+            "deploy_on": "taskTriggers"
+ },
+        {
+            "template" : "ANALYSIS_COORDINATOR_REQUEST",
+            "task": "proceed",
+            "deploy_on": "taskTriggers"
+        }
+    ]
+}
+
+\end{lstlisting}

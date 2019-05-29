@@ -1,0 +1,71 @@
+\section{Analysis and paper phases}
+\label{sec:Analysis_and_paper_phases}
+For many years ATLAS used FENCE to support the approval process of Papers, CONF and PUB notes. Since then, the three types of documents and their related interfaces were considered as independent systems. They had different creation interfaces, different search interfaces and different workflows, all starting from Phase 1. Recently, since many projects at CERN changed their version control software from SVN~\cite{svn} to Gitlab~\cite{gitlab}, the need of new FENCE system that could automatically create and configure Gitlab repositories emerged. Thus, the Analysis/Phase 0 software was developed. It was also the opportunity to provide an interface which deals with the "Analysis only" workflow before accessing the Paper, CONF or PUB note production process. In this section, will be presented how the software tools, mainly the FENCE framework, already introduced in the previous section, was used to achieve the Analysis/Phase 0 requirements. In Fig.~\ref{fig:Glance_Papers_Phase0}, a screenshot of the main interface of the system is presented, where the user can have an overview of all the Analysis basic data (on the left) and Phase 0 steps (on the right). It is also possible to move forward the workflow triggering automatic messages that alert the responsible for the next step that they should perform an action in the system, giving them instructions.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Glance_Papers_Phase0.png}
+  \caption{Screenshot of the Analysis/Phase 0 system main interface.}
+  \label{fig:Glance_Papers_Phase0}
+\end{figure}
+Phase 0 is a common stage to Papers, CONF and PUB notes workflows, before Phase 1. It stores some metadata divided into steps, as for example, meeting dates, comments, links, groups of people like Analysis Contacts and their target date for Analysis finalisation, Editorial board members and meetings, approval sign-off dates and others. Each of those metadata should be filled in a specific order, by certain users and triggering automatic emails or egroups~\cite{egroups} updates along the process. The main FENCE framework classes that allowed the development of those features are the Workflow, Messenger, EgroupManager and User, and definitely making use of many other classes and tools like the MBF (Models, Builder and Factories) infrastructure. A brief explanation of the usage of each one will be presented next.
+
+\subsection{Workflow class}
+\label{sec:Workflow_class}
+The Workflow class was developed based on the concept of Graphs, that encompasses the relation between objects. In this context, objects are called nodes and the relation between them are called edges, that can be a directional flow or not. To represent this concept through a codified depiction, some classes were created. 
+
+The abstract Graph class, which code can be found in \ref{sec:app1}, have a few simple implemented methods that allow the addition and deletion of nodes and edges. The class that implements Graph is called MapperGraph and it stores nodes and edges inside a PHP data structure called SplObjectStorage, that, for this implementation, could better manage objects than associative arrays. The usage of this data structure allowed the development of very simple methods to retrieve neighbour nodes or even edges given its origin and target node, what means retrieving a directional edge.
+
+The Node class defines methods to set and get data related to one node. The Edge class defines similar methods, but related to an edge. An example of data that can be added to an edge is an instance of the Action class, having methods to set and get function callbacks, defining its arguments and being able to access its outputs. More details about the Action class implementation can be found in \ref{sec:app2}.
+
+The Workflow class, one of the most important class of the Analysis/Phase 0 system since it is mainly characterised with Phase 0 steps with actions in between them, uses the Graph, Node, Edge and Action classes. It defines nodes as being Phase 0 steps, edges as being the relation between them and having actions being triggered, for example, sending automatic emails, updating egroups~\cite{egroups} and saving data in the Database.
+
+The behaviour of the Workflow class is commanded by a JSON file, following the FENCE pattern described in subsection~\ref{sec:Configuration_files_in_FENCE}. This file defines all phase 0 steps, having their identifiers and the inputs that should be rendered in each step, specifying their types, rules and permissions. It has also the actions that can be triggered from one step with their function callback and the next state which the workflow should be moved to. An example is shown in \ref{sec:app3}.
+
+The example is a part of the JSON file setting the step for Analysis definition after EOI meeting. First, the identifier of the step is set as analysis$\_$definition. Then, the Main physics aim input is defined with its label, identifier, instructions (if any), type (in this case, a text box), its rule of maximum 500 characters and also the edition permissions. After, the actions are defined with their function callback path and permissions. The callback can instantiate any other class like Messenger, to send automatic emails or EgroupManager to update egroups. At last, notifications to be sent are defined through templates and specifying when they will be triggered.
+
+\subsection{Messenger class}
+\label{sec:Messenger_class}
+
+The Messenger class is used by the Workflow class to send automatic emails and also to allow users to edit email templates. As explained before, the JSON file used by the Workflow class defines email template names to be triggered by an action. Those templates and their variables are stored in the Database in two JSON files. The first one contains all the templates with variables to be substituted and the second contains the variables identifiers and the methods used to substitute them in the templates before sending the email.
+Using another class called DBJReader, the Messenger class can read those JSON files from the Database. Then, it can either get the templates and show them in the interface so the users can edit them or parse the variables and send an email. In the first case, the changes performed in the templates are saved again in the database, but this time using the DBJWriter class. In the second case, Messenger class will substitute all the variables in the template and use the Mailer class to trigger the email to the correct recipient. A Summary of this infrastructure can be found in Fig.\ref{fig:Messenger_class}. 
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Messenger_class.png}
+  \caption{Summary of the Messenger class infrastructure.}
+  \label{fig:Messenger_class}
+\end{figure}
+In Fig.~\ref{fig:email_template_editing}. The interface that allows the editing and re-sending of an email template in shown. It is possible to set the recipients (To, cc and bcc), an additional email address not in the default list, the subject and the content of the email. Those last two can have variables to be substituted according to the publication. 
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/email_template_editing.png}
+  \caption{Interface for email template editing.}
+  \label{fig:email_template_editing}
+\end{figure}
+
+\subsection{EgroupManager class}
+\label{sec:EgroupManager_class}
+The EgroupManager class is similar to the Messenger class since it also gets a template from a JSON file and substitutes variables. The difference is that the templates are not related to emails, but egroups configurations. Also, it does not allow users to edit the templates from the interface since they contain many technical details used by the egroups API, explained later in this section.
+
+The EgroupManager class first uses another FENCE class to get the templates from the JSON file called JReader, designed to parse JSON files and save them in an object. After getting the JSON templates, EgroupManager parses it substituting all the variables.
+
+One example that can be found in \ref{sec:app4} is the Analysis Team egroup created when there is a new Analysis/Phase 0 entry. The template contains its identification, the name of the egroup with already one variable to be substituted, the Analysis/Phase 0 reference code. It also defines a topic, administrator egroup and posting exceptions, some mandatory parameters to create an egroup through its API. The members of the egroup will then be substituted by the Analysis team members when the EgroupManager class parses the variables.
+
+Having the template parsed, the EgroupManager class uses the FENCE EgroupSOAPHandler class to communicate with the egroups API. To do so, it first makes an authentication and, using the methods available in the SOAP WebServices~\cite{egroups}, it can create, update or delete egroups.
+
+\subsection{User class}
+\label{sec:User_class}
+
+The main purpose of the User class is to define an object that stores information concerning the logged in CERN member, for instance, his CERN CCID, first and last name, egroups and others attributes. Besides that, it defines specific methods, to facilitate the access control among the interface. 
+In \ref{sec:app5}, we have two examples of the above mentioned methods. These are used to check user clearance: is$\_$expert() checks if the user is member of “fence-developers” e-group, which is composed by the project developers. As of has Permission($\$$permission), it accepts a permission to be checked as an argument and verifies if it is among the user permissions inventory.
+Moreover, when an extension of User is created, extra methods are appended to User to provide specific \textit{utils} for a context. This way, every system has its own User class extending FENCE core User class. This is the case for Analysis, that has many specific methods used to grant edit permissions and control users access.
+Furthermore, Analysis was implemented using the concept of configuration files, described in subsection~\ref{sec:Configuration_files_in_FENCE}. These files provide multiple properties that set access control and edit permissions on Analysis systems. This is mainly achieved in two ways. General access control is set using CERN e-groups, or FENCE usergroups, such as experts, administrators and many others. In this case, User class verifies the clearance by comparing the user egroups and usergroups to the ones contained on its object. The other way concerns inputs edit permissions and uses analysis specific roles to do so. These roles are keys mapped to methods in User class that check if the member is supposed to have edit permission on that specific field. An example is shown in \ref{sec:app6}.
+
+\subsection{MBF (Models, Builer and Factories) infrastructure}
+\label{sec:MBF_Models_Builder_and_Factories_infrastructure}
+Models, Builders and Factories are all individually very used software design patterns. However, their combined usage is a particular feature of FENCE framework. The main goal of these development standards is to create a wrapper to store complex objects and facilitate the construction of these on different contexts. For instance, it would be possible to pass an actual SQL Query every time information from the Database is needed. Nonetheless, it is much more convenient to just call a class that handles the queries and presents to the user the needed object.
+The desired behaviour described above is exactly how the MBF infrastructure works. On FENCE classes, objects are constructed simply by instantiating specific factories classes. These classes extend the core Factory class, which sets the whole engineering that connects to the database and assembles objects. Whenever a specific new object needs to be created, a group of three files are needed: the Factory, the Builder and the Model files. 
+Models are classes that serve as an oriented object representation of the information. They define several sets and get methods that handle specific properties of the object. These models are used in Builders, where the actual query is set and database columns are associated to a model set method. Finally, a Factory calls its corresponding Builder and also contains an inventory, which may be empty, of other Factories that are related to this object.
+
+The Workflow, Messenger, EgroupManager, User classes, along with the MBF infrastructure made possible the development of the Analysis/Phase 0 system workflow, well represented by Fig.~\ref{fig:Glance_Papers_Phase0}. However, they do not include the Gitlab Integration, a key feature of the system, that will be explained in details in the next sections.
+

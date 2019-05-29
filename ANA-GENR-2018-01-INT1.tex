@@ -54,6 +54,7 @@
 
 % Add you own definitions here (file ANA-GENR-2018-01-INT1-defs.sty).
 \usepackage{ANA-GENR-2018-01-INT1-defs}
+\usepackage{listings}
 
 %-------------------------------------------------------------------------------
 % Generic document information
@@ -67,7 +68,10 @@
 %-------------------------------------------------------------------------------
 % Content
 %-------------------------------------------------------------------------------
+
 \begin{document}
+%\nolinenumbers
+
 
 \maketitle
 
@@ -77,67 +81,88 @@
 \PrintAtlasContribute{0.30}
 \clearpage
 
-You can find some text snippets that can be used in papers in \texttt{template/atlas-snippets.tex}.
-Some of the snippets need the \texttt{jetetmiss} option passed to \texttt{atlasphysics}.
+%You can find some text snippets that can be used in papers in \texttt{template/atlas-snippets.tex}. Some of the snippets need the \texttt{jetetmiss} option passed to \texttt{atlasphysics}.
 %\input{atlas-snippets}
 
 %-------------------------------------------------------------------------------
-% Introduction
-\input{introduction}
+% 1 Introduction
+\input{1_Introduction}
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% ATLAS Publication and collaborative tasks
-\input{collaborative-tasks}
+% 2 ATLAS work strategy
+\input{2_ATLAS_work_strategy}
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% Analysis/Phases
-\input{analysis-phases}
+% 3 The FENCE project   
+\input{3_The_FENCE_project}
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% Glance Gitlab integration
-\input{glance-gitlab-integration}
+% 4 Analysis and Paper Phases  
+\input{4_Analysis_and_paper_phases}
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% PO-Gitlab and CI tools
-\input{po-ci-tools}
+% 5 PO-Gitlab and CI tools
+\input{5_PO-Gitlab_and_CI_tools}
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% LaTeX packages
-\input{latex-packages}
+% 6 FENCE and Gitlab integration
+\input{6_FENCE_and_Gitlab_integration}
 %-------------------------------------------------------------------------------
 
-
-% All figures and tables should appear before the summary and conclusion.
-% The package placeins provides the macro \FloatBarrier to achieve this.
-% \FloatBarrier
-
 %-------------------------------------------------------------------------------
-\section{Conclusion}
-\label{sec:conclusion}
+% 7 Author lists, Acknowledgements and Proof Checker
+\input{7_Authorlists_Acknowledgements_and_ProofChecker}
 %-------------------------------------------------------------------------------
 
-Place your conclusion here.
+%-------------------------------------------------------------------------------
+% 8 Handling the metadata
+\input{8_Handling_the_metadata}
+%-------------------------------------------------------------------------------
 
-
+%-------------------------------------------------------------------------------
+% 9 Conclusion
+\input{9_Conclusion}
+%-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 % Bibliography
+\clearpage
 \printbibliography
 %-------------------------------------------------------------------------------
-
+%-------------------------------------------------------------------------------
+% Glossary
+\clearpage
+\input{Glossary}
+%-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 \clearpage
 \appendix
-\part*{Appendices}
-\addcontentsline{toc}{part}{Appendices}
+\part*{Appendix}
+\addcontentsline{toc}{part}{Appendix}
+%-------------------------------------------------------------------------------
+\input{Appendix_1}
+\input{Appendix_2}
+\input{Appendix_3}
+\input{Appendix_4}
+\input{Appendix_5}
+\input{Appendix_6}
+\input{Appendix_7}
+\input{Appendix_8}
+\input{Appendix_9}
+\input{Appendix_16}
+\input{Appendix_10}
+\input{Appendix_11}
+\input{Appendix_12}
+\input{Appendix_13}
+\input{Appendix_14}
+\input{Appendix_15}
+
 %-------------------------------------------------------------------------------
 
-In an ATLAS note, use the appendices to include all the technical details of your work
-that are relevant for the ATLAS Collaboration only (e.g.\ dataset details, software release used).
-This information should be printed after the Bibliography.
+%In an ATLAS note, use the appendices to include all the technical details of your work that are relevant for the ATLAS Collaboration only (e.g.\ dataset details, software release used). This information should be printed after the Bibliography.
 
 \end{document}
