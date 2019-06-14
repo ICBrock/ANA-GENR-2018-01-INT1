@@ -46,9 +46,9 @@ rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst 
 EPSTOPDFFILES = $(call rwildcard, $(FIGSDIR), *eps-converted-to.pdf)
 
 # Default target - make mydocument.pdf with pdflatex
-default: run_pdflatex
+# default: run_pdflatex
 # Use latexmk instead to compile
-# default: run_latexmk
+default: run_latexmk
 
 .PHONY: run_latexmk
 .PHONY: newdocument newdocumenttexmf newnotemetadata newpapermetadata newfiles
