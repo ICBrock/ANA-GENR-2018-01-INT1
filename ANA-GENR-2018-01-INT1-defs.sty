@@ -1,2 +1,37 @@
-\newcommand{\epipes}{\textit{edit-pipelines}}
-\newcommand{\epipe}{\textit{edit-pipeline}}
+\newcommand*{\epipes}{\textit{edit-pipelines}\xspace}
+\newcommand*{\epipe}{\textit{edit-pipeline}\xspace}
+\newcommand*{\gitlab}{GitLab\xspace}
+\newcommand*{\pogitlab}{PO-GitLab\xspace}
+\newcommand*{\authorlist}{author list\xspace}
+
+% Macros for classes etc to get consistent formatting
+\newcommand*{\Class}[1]{\texttt{#1}\xspace}
+\newcommand*{\Structure}[1]{\texttt{#1}\xspace}
+\newcommand*{\File}[1]{\texttt{#1}\xspace}
+
+% Macros for comments
+\newcommand{\IBnote}[3][]{\tZqnote[author=Ian, #1]{#2}{#3}{magenta!20}{magenta}}
+\newcommand{\FMnote}[3][]{\tZqnote[author=Lidia,#1]{#2}{#3}{green!20}{green!50!black!60}}
+
+\ifPrintNotes
+  \typeout{ATLAS publications document: showing comments}
+  \KOMAoptions{BCOR=-5mm}
+  \KOMAoptions{DIV=last}
+  \addtolength{\marginparwidth}{10mm}
+  \addtolength{\textwidth}{-7.86mm}
+  \RequirePackage{todonotes}
+  % \presetkeys{todonotes}{color=cyan!20, linecolor=cyan}{}
+  \newcommand{\tZqnote}[5][]{%
+    \ifthenelse{ \equal{#1}{} }
+      {\textcolor{#5}{#2}\todo[color=#4, linecolor=#5]{#3}\xspace}
+      {\textcolor{#5}{#2}\todo[color=#4, linecolor=#5, #1]{#3}\xspace}
+    }
+\else
+  \typeout{ATLAS publications document: not showing comments}
+  \RequirePackage[disable]{todonotes}
+  % \typeout{todo 1:#1; 2:#2; 3:#3;}
+  \newcommand{\tZqnote}[5][]{%
+    #2\xspace
+  }
+\fi
+

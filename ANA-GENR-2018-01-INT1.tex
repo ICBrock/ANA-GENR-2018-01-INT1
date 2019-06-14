@@ -21,6 +21,7 @@
 % Extra packages:
 \usepackage{\ATLASLATEXPATH atlaspackage}
 \usepackage{fontawesome}
+\usepackage{cleveref}
 % Commonly used options:
 %  biblatex=true|false   Use biblatex (default) or bibtex for the bibliography.
 %  subfigure|subfig|subcaption  to use one of these packages for figures in figures.
@@ -35,7 +36,7 @@
 \usepackage{\ATLASLATEXPATH atlascontribute}
 
 % Useful macros
-\usepackage{\ATLASLATEXPATH atlasphysics}
+\usepackage[hepparticle]{\ATLASLATEXPATH atlasphysics}
 % See doc/atlas_physics.pdf for a list of the defined symbols.
 % Default options are:
 %   true:  journal, misc, particle, unit, xref
@@ -52,6 +53,11 @@
 
 % Paths for figures - do not forget the / at the end of the directory name.
 \graphicspath{{logos/}{figures/}}
+
+% Turn notes/comments on/off
+\newif\ifPrintNotes
+%\PrintNotesfalse  % to turn off printing of notes
+\PrintNotestrue    % to turn on printing of notes
 
 % Add you own definitions here (file ANA-GENR-2018-01-INT1-defs.sty).
 \usepackage{ANA-GENR-2018-01-INT1-defs}
@@ -71,12 +77,14 @@
 %-------------------------------------------------------------------------------
 
 \begin{document}
-%\nolinenumbers
-
 
 \maketitle
 
 \tableofcontents
+
+\ifPrintNotes
+  \listoftodos
+\fi
 
 % List of contributors - print here or after the Bibliography.
 \PrintAtlasContribute{0.30}
@@ -86,12 +94,12 @@
 %\input{atlashttps://www.overleaf.com/9258629422mxtqkrkpnnpt-snippets}
 
 %-------------------------------------------------------------------------------
-% 1 Introduction
+% Introduction
 \input{1_Introduction}
 %-------------------------------------------------------------------------------
 
 %-------------------------------------------------------------------------------
-% 2 ATLAS work strategy
+% ATLAS work strategy
 \input{2_ATLAS_work_strategy}
 %-------------------------------------------------------------------------------
 
@@ -129,16 +137,19 @@
 % 9 Conclusion
 \input{9_Conclusion}
 %-------------------------------------------------------------------------------
+
 %-------------------------------------------------------------------------------
 % Bibliography
 \clearpage
 \printbibliography
 %-------------------------------------------------------------------------------
+
 %-------------------------------------------------------------------------------
 % Glossary
 \clearpage
 \input{Glossary}
 %-------------------------------------------------------------------------------
+
 %-------------------------------------------------------------------------------
 \clearpage
 \appendix
