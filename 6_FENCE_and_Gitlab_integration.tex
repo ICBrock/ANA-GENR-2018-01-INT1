@@ -10,8 +10,9 @@
 As already mentioned before, the FENCE Analysis Phase 0 project originated from the requirement to have an automatic creation of Gitlab repositories for each Analysis or publication. So Phase 0 interface has some features that triggers the communication with Gitlab. The integration was already mentioned in section 5.1, but it will be described in details in this section.
 
 %------------------------------------------------------------------------------
-\subsection{Gitlab structure to organise Analysis groups and repositories}%
+\subsection{GitLab structure to organise Analysis groups and repositories}%
 \label{sec:Gitlab_structure_to_organise_Analysis_groups_and_repositories}
+
 Analysis groups and repositories are created in GitLab under the atlas-physics-office group. Each Leading Physics, Combined Performances group or a SyStem Detector/Activity coordination is labelled as a category with four letters in FENCE Analysis systems.
 For example, the leading TOP Quark physics group is \texttt{TOPQ} while the Electron/Gamma combined Performance group is \texttt{EGAM}. The ID of a Phase 0 FENCE entry is therefore labelled: \texttt{ANA-GROUP-YEAR-NN} where GROUP can be \texttt{TOPQ}, \texttt{HIGG} or \texttt{EGAM}, for example.
 \texttt{YEAR} is the year when the document was created and \texttt{NN} is a two digit number.
@@ -27,7 +28,7 @@ Contrarily, in PO-Gitlab, the documents IDs are more logical and are labelled: \
 For example, in the Higgs category, for a given Phase 0 Analysis entry \texttt{ANA-HIGG-2017-08},
 \pogitlab will host \texttt{ANA-HIGG-2017-08-INT1,2..n, ANA-HIGG-2017-08-PAPER, ANA-HIGG-2017-08-CONF, ANA-HIGG-2017-08-PUB}.
 Each repository is connected to the appropriate FENCE interface.
-This can be seen in \cref{fig:Gitlab_repository} where the Gitlab interface for the atlas-physics-office subgroups and repositories is shown.
+This can be seen in \cref{fig:Gitlab_repository} where the \gitlab interface for the atlas-physics-office subgroups and repositories is shown.
 \texttt{ANA-HIGG-2017-08}, a subgroup of HIGG, in fact contains one paper and one internal note repository, namely \texttt{ANA-HIGG-2017-08-PAPER} and \texttt{ANA-HIGG-2017-08-INT1}.
 
 \begin{figure}[htb]

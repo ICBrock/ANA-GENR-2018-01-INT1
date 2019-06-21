@@ -1,37 +1,50 @@
-\section{Authorlists Acknowledgements and ProofChecker}
-\label{sec:Authorlists_Acknowledgements_and_ProofChecker}
+% !TEX root = ANA-GENR-2018-01-INT1.tex
+% Turn off some chktex warnings.
+% chktex-file 1 chktex-file 8 chktex-file 46
 
-\subsection{Author lists and acknowledgments files}
+%------------------------------------------------------------------------------
+\section{Author Lists Acknowledgements and the Proofs Checker}%
+\label{sec:Authorlists_Acknowledgements_and_ProofChecker}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\subsection{Author lists and acknowledgments files}%
 \label{sec:Author_lists_and_acknowledgments_files}
 
-Both types of files, author list and acknowledgements, are built using FENCE framework, see Fig.~\ref{fig:authorlist_interface}, and automatically pushed into the appropriate Gitlab repository, thanks to the FENCE Gitlab integration (chapter 6.3). Their implementation into the Paper is straightforward for a future submission to the journals. FENCE provides an elegant way to retrieve the needed information from the database (see chapter 4.5 MBF infrastructure) and build all the needed files.
+Both types of files, the author list and the acknowledgements, are built using the FENCE framework, see \cref{fig:authorlist_interface},
+and automatically pushed into the appropriate Gitlab repository, using the FENCE \gitlab integration (\cref{sec:FENCE-Gitlab_Integration}).
+Their integration into the paper is straightforward for a future submission to the journals.
+FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
  
-The Author lists XML file is composed by three main blocks:
+The author list XML file is composed of three main blocks:
 \begin{itemize}
-\item Header: store paper main information (\ref{sec:app10})
-\item Institutes: list of institutes and their references (\ref{sec:app11})
-\item Authors: list of authors for this author list with their information (\ref{sec:app12})
+\item Header: store paper main information (\cref{sec:author:xmlheader})
+\item Institutes: list of institutes and their references (\cref{sec:author:xmlinstitute})
+\item Authors: list of authors for this author list with their information (\cref{sec:author:xmlauthor})
 \end{itemize}
  
-XML file is the one used as a “role” since it contains all the information needed to build the other files. It is the first one to be generated and a backup version of the first release of the author list is stored.
+The XML file is the one used as a \enquote{role}, since it contains all the information needed to build the other files.
+It is the first one to be generated and a backup version of the first release of the author list is stored.
  
-The acknowledgment TEX file is built using a standard template and it is filled using the FENCE framework to retrieve the needed information about the ATLAS Founding Agencies.
+The acknowledgment \File{tex} file is built using a standard template and is filled using the FENCE framework to retrieve the required information about the ATLAS Funding Agencies.
 
-\begin{figure}[ht!]
+\begin{figure}[htb]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/authorlist_interface.png}
-  \caption{FENCE Authorlist interface. The five first in the list are GitLab projects.}
+  \includegraphics[width=0.9\textwidth]{figures/authorlist_interface.png}%
+  \caption{FENCE author list interface.
+    The first five entries in the list are GitLab projects.}%
   \label{fig:authorlist_interface}
 \end{figure}
 
+%------------------------------------------------------------------------------
 \subsection{Main functionalities of the FENCE Author list user interface}
 \label{sec:Main_functionalities_of_the_FENCE_Author_list_user_interface}
 
-The FENCE Author list interface, \cref{fig:authorlist_interface}, shows the complete set of author lists created for each ATLAS Paper which is published since 2009 or being submitted.
+The FENCE author list interface, \cref{fig:authorlist_interface}, shows the complete set of author lists created for each ATLAS Paper which has been published since 2009 or is being submitted.
 They are easily filtered using the SEARCH box option.
 All the columns are self-explanatory; in the last column the dropdown menu gives access to the author list location, which can be distinguished by the icon:
 a download icon (\faDownload) means the files are stored in AFS and can be downloaded.
-A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats (tex, xml, csv, pdf, cds) and structures (by country/institutes, or institutes only). 
+A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats (\File{tex, xml, csv, pdf, cds}) and structures (by country/institutes, or institutes only). 
 
 \subsection{Proof checker functionalities}
 \label{sec:Proof_checker_functionalities}
@@ -49,12 +62,13 @@ For this purpose, a tool, the proof checker, was created to automatically poll t
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/collaboration_proofs.png}
+  \includegraphics[width=0.9\textwidth]{collaboration_proofs}
   \caption{Atlas collaboration proofs main page.}
   \label{fig:collaboration_proofs}
 \end{figure}
+
 The main difficulties in this process rely on extracting the content from the PDF file; the text is not easily retrieved for different reasons. 
-One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footpages and headings. 
+One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footers and headings. 
 Another reason is that words extracted from a PDF file don’t follow a specific coding convention: other than ASCII characters can be output in many different ways; PDF can specify a predefined encoding to use, or provide a lookup table of differences to a predefined or built-in encoding; for fonts with non common latin characters, which is always the case for these kind of publications and content, special encodings are used and should be necessary to provide a ToUnicode table when semantic information about the characters has to be preserved. 
 Also the proof checker has to pass through all the publication text and try to “understand” when the author list starts, when it ends, when the institute list starts and when it ends.
 All this is made even more difficult due to the fact that different publishers have different layouts, and create different versions of PDF files, making all of the above problems not generic but often specific to themselves only.
@@ -65,10 +79,13 @@ After the target reference is created, the comparison looks for:
 \item Authors that seem to be missing from the PDF. Here, false positives are often due to characters encoding and spaces;
 \item Authors with inconsistent punctuation. This section points out differences between original and target references authors’ first names punctuation to follow the rule X. or X.Y. or X.-Y. or X-Y. with no spaces at all.;
 \item Institutes that seem missing from the PDF. Here false positives are often due to non standard characters which breaks the entry;
-\item Institutes with close matches. All the entries that really look like the original but have some inconsistencies get in this group. Some publisher expands (or contracts) USA to United States of America, or there’s some new character which doesn’t break the institute entry but makes it so that there’s no perfect match, such as “Università” and “Universit` a”;
-\item Mismatched authors. All the authors collaborate through one or more institutes. It is checked that the link between the author and the institute is consistent. This sometimes results as a false positive because it’s not always easy to extract from the pdf the index number of an institute, mainly because the text coming from the pdf file is often full of other elements such as line numbers of the document. For this reason an author originally assigned to institute number X, can result matched with target institute YX, because in the text extracted from the pdf the number X might be preceded by a Y line number; institute YX mostly doesn’t exist or eventually comes to be another institute;
+\item Institutes with close matches. All the entries that really look like the original but have some inconsistencies get in this group. Some publisher expands (or contracts) USA to United States of America, or there’s some new character which doesn’t break the institute entry but makes it so that there’s no perfect match, such as \enquote{Università} and \enquote{Universit` a};
+\item Mismatched authors. All the authors collaborate through one or more institutes.
+  It is checked that the link between the author and the institute is consistent.
+  This sometimes results as a false positive because it’s not always easy to extract from the PDF file the index number of an institute, mainly because the text coming from the PDF file is often full of other elements such as line numbers of the document.
+  For this reason an author originally assigned to institute number X, can result matched with target institute YX, because in the text extracted from the pdf the number X might be preceded by a Y line number; institute YX mostly doesn’t exist or eventually comes to be another institute;
 \item Deceased authors. In two categories we show a list, often empty, of authors that we signed as deceased but the publication forgot to mark, or vice-versa. The results here are pretty reliable;
-\item Missing founding agencies, or wrongly added by the publisher are checked.
+\item Missing funding agencies, or wrongly added by the publisher are checked.
 \end{itemize}
 
 In early 2019, due to some changes on CERN systems, the component written in PROLOG which run the comparison went out of service. This implied an urgent request for developing a new tool that could take care of this task. PROLOG is well known to take a different approach in a generic problem solving situation, where the expression of the problem is translated in a logic way instead of working directly on its resolution algorithm. But PROLOG is also a language difficult to maintain due to the fact that not many developers had ever a chance to work with it and its logic programming paradigm. That’s why python was chosen to accomplish this role.
