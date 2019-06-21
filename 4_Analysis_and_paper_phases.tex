@@ -2,9 +2,8 @@
 % Turn off some chktex warnings.
 % chktex-file 1 chktex-file 8 chktex-file 46
 
-
 %------------------------------------------------------------------------------
-\section{Analysis and paper phases}
+\section{Analysis and paper phases}%
 \label{sec:Analysis_and_paper_phases}
 %------------------------------------------------------------------------------
 
@@ -12,7 +11,7 @@ For many years ATLAS used FENCE to support the approval process of Papers, CONF 
 At that time, the three types of documents and their related interfaces were considered as independent systems.
 They had different creation interfaces, different search interfaces and different workflows, all starting from Phase 1.
 Recently, since many projects at CERN changed their version control software from SVN~\cite{svn} to Git~\cite{gitlab}, the need of new FENCE system that could automatically create and configure GitLab repositories emerged.
-Thus, the Analysis/Phase 0 software was developed. It was also the opportunity to provide an interface which deals with the "Analysis only" workflow before accessing the Paper, CONF or PUB note production process.
+Thus, the Analysis/Phase 0 software was developed. It was also the opportunity to provide an interface which deals with the \enquote{Analysis only} workflow before accessing the Paper, CONF or PUB note production process.
 In this section, the way in which the software tools, mainly the FENCE framework already introduced in the previous section, are used to achieve the Analysis/Phase 0 requirements is presented.
 In \cref{fig:Glance_Papers_Phase0}, a screenshot of the main interface of the system is shown, where the user can have an overview of all the analysis basic data (on the left) and Phase 0 steps (on the right).
 It is also possible to move forward the workflow triggering automatic messages that alert the responsible for the next step that they should perform an action in the system, giving them instructions.
@@ -20,7 +19,7 @@ It is also possible to move forward the workflow triggering automatic messages t
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{figures/Glance_Papers_Phase0.png}
-  \caption{Screenshot of the Analysis/Phase 0 system main interface.}
+  \caption{Screenshot of the Analysis/Phase 0 system main interface.}%
   \label{fig:Glance_Papers_Phase0}
 \end{figure}
 
@@ -32,7 +31,7 @@ Use is also made of many other classes and tools like the MBF (Models, Builder a
 A brief explanation of the usage of each one is presented next.
 
 %------------------------------------------------------------------------------
-\subsection{\Class{Workflow} class}
+\subsection{\Class{Workflow} class}%
 \label{sec:Workflow_class}
 
 The \Class{Workflow} class was developed based on the concept of Graphs, that encompasses the relation between objects. In this context, objects are called nodes and the relation between them are called edges, that can be a directional flow or not. To represent this concept through a codified depiction, some classes were created. 
@@ -58,7 +57,7 @@ The callback can instantiate any other class like \Class{Messenger}, to send aut
 Finally, notifications to be sent are defined through templates and specifying when they will be triggered.
 
 %------------------------------------------------------------------------------
-\subsection{Messenger class}
+\subsection{Messenger class}%
 \label{sec:Messenger_class}
 
 The \Class{Messenger} class is used by the \Class{Workflow} class to send automatic emails and also to allow users to edit email templates. As explained before, the JSON file used by the \Class{Workflow} class defines email template names to be triggered by an action.
@@ -89,7 +88,7 @@ Those last two can have variables to be substituted according to the publication
 
 
 %------------------------------------------------------------------------------
-\subsection{\Class{EgroupManager} class}
+\subsection{\Class{EgroupManager} class}%
 \label{sec:EgroupManager_class}
 
 The \Class{EgroupManager} class is similar to the \Class{Messenger} class since it also gets a template from a JSON file and substitutes variables.
@@ -101,32 +100,33 @@ After getting the JSON templates, \Class{EgroupManager} parses it substituting a
 
 One example that can be found in \cref{sec:app4} is the Analysis Team egroup created when there is a new Analysis/Phase 0 entry.
 The template contains its identification, the name of the egroup with already one variable to be substituted, the Analysis/Phase 0 reference code.
-It also defines a topic, administrator egroup and posting exceptions, some mandatory parameters to create an egroup through its API.
+It also defines a topic, administrator egroup and posting exceptions, some mandatory parameters to create an egroup through its API\@.
 The members of the egroup will then be substituted by the Analysis team members when the \Class{EgroupManager} class parses the variables.
 
-Having the template parsed, the \Class{EgroupManager} class uses the FENCE \Class{EgroupSOAPHandler} class to communicate with the egroups API.
+Having the template parsed, the \Class{EgroupManager} class uses the FENCE \Class{EgroupSOAPHandler} class to communicate with the egroups API\@.
 To do so, it first makes an authentication and, using the methods available in the SOAP WebServices~\cite{egroups}, it can create, update or delete egroups.
 
 
 %------------------------------------------------------------------------------
-\subsection{\Class{User} class}
+\subsection{\Class{User} class}%
 \label{sec:User_class}
 
 The main purpose of the \Class{User} class is to define an object that stores information concerning the logged in CERN member, for instance, his or her CERN CCID, first and last name, egroups and others attributes. Besides that, it defines specific methods, to facilitate the access control among the interface. 
-In \cref{sec:app5}, we have two examples of the above mentioned methods. These are used to check user clearance: \Class{is$\_$expert()} checks if the user is member of \enquote{fence-developers} egroup, which is composed by the project developers.
-The method \Class{Permission($\$$permission)} accepts a permission to be checked as an argument and verifies if it is among the user permissions inventory.
+In \cref{sec:app5}, we have two examples of the above mentioned methods. These are used to check user clearance: \Class{is$\_$expert()} checks if the user is member of \enquote{fence-developers} egroup, which is composed by the project developers. % chktex 36
+The method \Class{Permission($\$$permission)} accepts a permission to be checked as an argument and verifies if it is among the user permissions inventory. % chktex 36
 Moreover, when an extension of \Class{User} is created, extra methods are appended to \Class{User} to provide specific \textit{utils} for a context.
 This way, every system has its own \Class{User} class extending the FENCE core \Class{User} class. 
 This is the case for \Class{Analysis}, which has many specific methods used to grant edit permissions and control users access.
 Furthermore, \Class{Analysis} was implemented using the concept of configuration files, described in \cref{sec:Configuration_files_in_FENCE}.
-These files provide multiple properties that set access control and edit permissions on Analysis systems. This is mainly achieved in two ways. General access control is set using CERN egroups, or FENCE usergroups, such as experts, administrators and many others.
-In this case, \Class{User} class verifies the clearance by comparing the user egroups and usergroups to the ones contained on its object. The other way concerns inputs edit permissions and uses analysis specific roles to do so.
+These files provide multiple properties that set access control and edit permissions on Analysis systems. This is mainly achieved in two ways. General access control is set using CERN egroups, or FENCE user groups, such as experts, administrators and many others.
+In this case, \Class{User} class verifies the clearance by comparing the user egroups and user groups to the ones contained on its object.
+The other way concerns inputs edit permissions and uses analysis specific roles to do so.
 These roles are keys mapped to methods in \Class{User} class that check if the member is supposed to have edit permission on that specific field.
 An example is shown in \cref{sec:app6}.
 
 
 %------------------------------------------------------------------------------
-\subsection{MBF (Models, Builder and Factories) infrastructure}
+\subsection{MBF (Models, Builder and Factories) infrastructure}%
 \label{sec:MBF_Models_Builder_and_Factories_infrastructure}
 
 Models, Builders and Factories are all individually heavily used software design patterns.
