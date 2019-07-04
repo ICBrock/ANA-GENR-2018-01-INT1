@@ -7,22 +7,25 @@
 \label{sec:FENCE_and_Gitlab_integration}
 %------------------------------------------------------------------------------
 
-As already mentioned before, the FENCE Analysis Phase 0 project originated from the requirement to have an automatic creation of Gitlab repositories for each Analysis or publication. So Phase 0 interface has some features that triggers the communication with Gitlab. The integration was already mentioned in section 5.1, but it will be described in details in this section.
+As mentioned above, the FENCE Analysis Phase 0 project originated from the requirement to have an automatic creation of Gitlab repositories for each Analysis or publication. So Phase 0 interface has some features that triggers the communication with Gitlab. The integration was already mentioned in section 5.1, but it will be described in details in this section.
 
 %------------------------------------------------------------------------------
-\subsection{GitLab structure to organise Analysis groups and repositories}%
+\subsection{GitLab structure to organise analysis groups and repositories}%
 \label{sec:Gitlab_structure_to_organise_Analysis_groups_and_repositories}
 
-Analysis groups and repositories are created in GitLab under the atlas-physics-office group. Each Leading Physics, Combined Performances group or a SyStem Detector/Activity coordination is labelled as a category with four letters in FENCE Analysis systems.
-For example, the leading TOP Quark physics group is \texttt{TOPQ} while the Electron/Gamma combined Performance group is \texttt{EGAM}. The ID of a Phase 0 FENCE entry is therefore labelled: \texttt{ANA-GROUP-YEAR-NN} where GROUP can be \texttt{TOPQ}, \texttt{HIGG} or \texttt{EGAM}, for example.
+Analysis groups and repositories are created in GitLab under the atlas-physics-office group. Each leading Physics, Combined Performance group or a System Detector/Activity coordination is labelled as a category with four letters in FENCE Analysis systems.
+For example, the leading Top Quark physics group is \texttt{TOPQ} while the Electron/Gamma Combined Performance group is \texttt{EGAM}.
+The ID of a Phase 0 FENCE entry is therefore labelled: \texttt{ANA-GROUP-YEAR-NN} where GROUP can be \texttt{TOPQ}, \texttt{HIGG} or \texttt{EGAM}, for example.
 \texttt{YEAR} is the year when the document was created and \texttt{NN} is a two digit number.
-For instance, ANA-SUSY-2019-04 for the 4th ANAlysis FENCE entry created in the SUSY group in 2019.
+For instance, ANA-SUSY-2019-04 for the 4th Analysis FENCE entry created in the SUSY group in 2019.
                     
 An analysis group may evolve into a Paper, a CONF or a PUB note. The IDs of those documents are therefore respectively \texttt{GROUP-YEAR-NN}, \texttt{CONF-GROUP-YEAR-NN} or \texttt{PUB-GROUP-YEAR-NN}.
+\IBnote{}{Aren't these the old names?}
 This naming convention preserves the backward compatibility with the different entries used for each type of document before Phase 0 creation.
 
-Contrarily, in PO-Gitlab, the documents IDs are more logical and are labelled: \texttt{ANA-GROUP-YEAR-NN-INTn} in the case of an internal note,
-\texttt{ANA-GROUP-YEAR-NN-PAPER} in case of a paper,
+In PO-Gitlab, as effort has been made to make the document IDs are more logical.
+They are labelled: \texttt{ANA-GROUP-YEAR-NN-INTn} for an internal note,
+\texttt{ANA-GROUP-YEAR-NN-PAPER} for a paper,
 \texttt{ANA-GROUP-YEAR-NN-CONF} for a CONF note,
 \texttt{ANA-GROUP-YEAR-NN-PUB} for a PUB note.
 For example, in the Higgs category, for a given Phase 0 Analysis entry \texttt{ANA-HIGG-2017-08},
@@ -34,7 +37,7 @@ This can be seen in \cref{fig:Gitlab_repository} where the \gitlab interface for
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{Gitlab_repository}
-  \caption{Screenshot of a substructure of the HIGG Gitlab repository.}%
+  \caption{Screenshot of the substructure of a HIGG Gitlab repository.}%
   \label{fig:Gitlab_repository}
 \end{figure}
 
@@ -42,7 +45,8 @@ This can be seen in \cref{fig:Gitlab_repository} where the \gitlab interface for
 \subsection{Middleware between FENCE and Gitlab REST API}%
 \label{sec:Middleware_between_FENCE_and_Gitlab_REST_API}
 
-A set of classes were created with the aim to make the usage of the \gitlab API easier among the FENCE systems, but is actually mainly used by the Analysis systems within the Analysis Gitlab integration.
+A set of classes were created with the original aim of making the usage of the \gitlab API easier between the FENCE systems.
+In fact, it is mostly used by the Analysis systems within the Analysis Gitlab integration.
 Through the main class, called \Class{Gitlab}, it is possible to handle all the basic operations offered by the API\@: create, get and customise settings for projects, groups, branches, handle commits and many other actions defined and explained in the Gitlab REST API documentation~\cite{rest_api}.
 
 Each API endpoint can be accessed by one of the following HTTP methods: GET, POST, DELETE and PUT\@.
@@ -61,16 +65,29 @@ The method calls the POST method mentioned above and stores the new repository m
 %------------------------------------------------------------------------------
 \subsection{FENCE-Gitlab Integration}%
 \label{sec:FENCE-Gitlab_Integration}
-The first interaction between FENCE and Gitlab happens when a Phase 0 entry is created. A group with its reference code is automatically formed containing the first internal note repository. The content of this repository’s first commit is obtained from a source repository, a package containing file templates called atlaslatex. FENCE is responsible of substituting all the necessary variables in all the file templates according to the metadata inserted when creating the entry in the system. After the commit, FENCE automatically un-protects the master branch, creates the protected PO-ready branch and also creates PO-Publication label. The last step is to set the developer permission to the Analysis Team egroup using LDAP synchronisation.
+The first interaction between FENCE and \gitlab happens when a Phase 0 entry is created.
+A group with its reference code is automatically formed containing the first internal note repository.
+The content of this repository’s first commit is obtained from a source repository,
+which is the package containing file templates called \texttt{atlaslatex}.
+FENCE is responsible of substituting all the necessary variables in all the file templates according to the metadata inserted when creating the entry in the system. After the commit, FENCE automatically un-protects the master branch, creates the protected PO-ready branch and also creates PO-Publication label. The last step is to set the developer permission to the Analysis Team egroup using LDAP synchronisation.
                     
-Another FENCE and Gitlab integration process is executed when Phase 0 is finished or it is skipped, proceeding to Paper, CONF or PUB note Phase 1. FENCE automatically creates an internal note repository setting all the configuration needed. It is also possible to append one or more additional internal note repositories at any time. The creation of configuration of the repositories holding the document is done without any input from the editor’s side allowing for a quick process. 
+Another FENCE and \gitlab integration process is executed when Phase 0 is finished or is skipped, proceeding to Paper, CONF or PUB note Phase 1.
+FENCE automatically creates an internal note repository setting all the configuration needed.
+It is also possible to append one or more additional internal note repositories at any time.
+The creation of the configuration of the repositories holding the document is done without any input from the editor’s side, allowing for a quick process. 
 
-FENCE and Gitlab also interact while handling the author list of a publication. Creating the author list at first circulation will trigger a request for the existence of the Gitlab repository associated to the publication through the Gitlab API\@.
-In a first transition period, if the repository did not exist, the author list would have been stored on AFS file system, that is now deprecated.
-Nowadays a \gitlab repository associated to the paper is a mandatory prerequisite, and to force the user to use it, FENCE will not allow the creation of the author list until the repository, if missing, is created.
+FENCE and Gitlab also interact while handling the author list of a publication.
+Creating the author list at first circulation will trigger a request for the existence of the \gitlab repository associated to the publication through the Gitlab API\@.
+In the transition period from the old to the current system,
+if the repository did not exist, the author list would have been stored on AFS file system.
+The old system is now deprecated.
+Nowadays a \gitlab repository associated to the paper is a mandatory prerequisite, and to force the user to use it,
+FENCE will not allow the creation of the author list until the repository, if missing, is created.
 
-If the repository is set up, the act of clicking on the button labeled as “Create and push to Gitlab”, see \cref{fig:paper_authorlist_section}, after creating the author list bounded to its reference date on all the different formats (\File{xml}, \File{tex} and others), starts a dialog among the two platforms, FENCE and \gitlab, to correctly push the files through the \gitlab API add method.
-On first circulation, new files are added to \gitlab, while on following circulations, the files, as they already exist, are pushed through the update method.
+If the repository is set up, the act of clicking on the button labeled as \enquote{Create and push to Gitlab}, see \cref{fig:paper_authorlist_section},
+first creates the author list according to its reference date in all the different formats (\File{xml}, \File{tex} and others).
+It then starts a dialog among the two platforms, FENCE and \gitlab, to correctly push the files through the \gitlab API \Class{add} method.
+On first circulation, new files are added to \gitlab, while on following circulations, the files, as they already exist, are pushed through the \Class{update} method.
 
 \begin{figure}[htb]
   \centering
@@ -81,4 +98,7 @@ On first circulation, new files are added to \gitlab, while on following circula
   \label{fig:paper_authorlist_section}
 \end{figure}
 
-Another interaction is needed to avoid two types of errors that will result in a blocker operation: trying to update a file that does not exist, or adding a file that is already in the repository. Through the Gitlab API FENCE, it is possible to check the status of a file before committing to avoid these two kind of errors. This verification is important because users could accidentally have renamed/deleted/moved one of these files without Fence being able to record these kind of activities.
+Another interaction is needed to avoid two types of errors that will result in a blocker operation:
+trying to update a file that does not exist, or adding a file that is already in the repository.
+Through the Gitlab API FENCE, it is possible to check the status of a file before committing to avoid these two kind of errors.
+This verification is important because users could accidentally have renamed/deleted/moved one of these files without FENCE being able to record such activities.
