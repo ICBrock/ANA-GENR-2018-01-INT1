@@ -12,7 +12,7 @@
 \label{sec:Author_lists_and_acknowledgments_files}
 
 Both types of files, the author list and the acknowledgements, are built using the FENCE framework, see \cref{fig:authorlist_interface},
-and automatically pushed into the appropriate Gitlab repository, using the FENCE \gitlab integration (\cref{sec:FENCE-Gitlab_Integration}).
+and automatically pushed to the appropriate Gitlab repository, using the FENCE--\gitlab integration (\cref{sec:FENCE-Gitlab_Integration}).
 Their integration into the paper is straightforward for a future submission to a journal.
 FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
  
@@ -147,35 +147,54 @@ An example of a working synonym is:
   Physics Department, SUNY Albany, Albany NY, United States of America \\
   \midrule
   \textbf{Institute as written on the journal’s author list} \\
-  \hline
   Physics Department, SUNY Albany, Albany, New York, USA
   \end{tabular}
 \end{table}
 
 These differences are acceptable, since the main information is correctly displayed and no real errors are found.
 
-All the synonyms’ records are managed using a JSON file and split by institutes and authors (\ref{sec:app13} and \ref{sec:app14}). Having this as a JSON file allows the proof checker script to easily parse the records and understand if the faults must be marked as Journal errors or if they should be skipped.
+All the synonym records are managed using a JSON file and split by institutes and authors (\cref{sec:app13} and \cref{sec:app14}).
+Having this as a JSON file allows the proof checker script to easily parse the records and understand if the faults must be marked as journal errors or if they should be skipped.
 
+%------------------------------------------------------------------------------
 \subsubsection{Synonym webpage}
 \label{sec:Synonym_webpage}
-To manage the list of proof checker’s synonyms ATLAS PO provides a webpage that allows users to search for an existing entry and manage the record synonyms. 
-Searching for an institute, or author, will display the list of records that match the searching criteria (Fig.~\ref{fig:synonym_webpage}) and allows the users to edit the synonyms for the record.
-Clicking the edit icon will show a new page section where users can insert their own known synonym for the record. This will be, after confirmation, added to the list of synonyms and will be taken into account by the next run of the proof checker.
-\begin{figure}[ht!]
+
+To manage the list of proofs checker synonyms ATLAS PO provides a webpage that allows users to search for an existing entry and manage the record synonyms. 
+Searching for an institute, or author, will display the list of records that match the searching criteria (\cref{fig:synonym_webpage}) and allows the users to edit the synonyms for the record.
+Clicking the edit icon shows a new page section where users can insert their own known synonym for the record.
+After confirmation, this will be added to the list of synonyms and will be taken into account by the next run of the proofs checker.
+
+\begin{figure}[htb]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/synonym_webpage.png}
-  \caption{Proof checker synonyms’ webpage.}
+  \includegraphics[width=0.9\textwidth]{synonym_webpage}
+  \caption{Proof checker synonyms webpage.}
   \label{fig:synonym_webpage}
 \end{figure}
 
+%------------------------------------------------------------------------------
 \subsubsection{Report page}
 \label{sec:Report_page}
-The proof checker provides a report after its run, one for each Paper and draft version. This report is provided and stored into a JSON file and must be parsed to show the report results into a human readable way. This is done by the proof$\_$report webpage (Fig.~\ref{fig:proof_report_webpage}).
-On that report we can find all the paper information plus the real comparison results splitted by issue sections (see \ref{sec:app15}). The JSON file contains more information than what is displayed; this is done to allow the webpage to understand the correct way to show the huge amount of information and for future improvements. The webpage contains some “hidden” sections that are produced by the proof checker thanks to the known synonyms, and can be displayed by clicking on “Skipped +”. Here the page will show all the false positive results that the proof checker found on its comparison, but that are ignored thanks to the synonyms.
-\begin{figure}[ht!]
+
+The proofs checker provides a report after its run, one for each paper and draft version.
+This report is provided and stored in a JSON file and must be parsed to show the report results in a human readable way.
+This is done by the \texttt{proof\_report} webpage (\cref{fig:proof_report_webpage}).
+The report contains all the paper information plus the real comparison results split by issue sections (see \cref{sec:app15}).
+The JSON file contains more information than that which is displayed;
+this is done to allow the webpage to understand the correct way to show the huge amount of information and for future improvements.
+The webpage contains some \enquote{hidden} sections that are produced by the proof checker thanks to the known synonyms,
+and can be displayed by clicking on \enquote{Skipped +}.
+Here the page will show all the false positive results that the proofs checker found on its comparison, but that are ignored thanks to the synonyms.
+
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{figures/proof_report_webpage.png}
   \caption{Proof report webpage.}
   \label{fig:proof_report_webpage}
 \end{figure}
-The proof checker helps the Physics Office staff in a tedious task, but is way far from being a perfect tool. More than that, it will always need to be maintained and updated looking for new unexpected cases, changes on publication layouts, new conventions on the author lists and their format. A list of further improvements are in developers’ agenda, with the goal of having the user manually checking just a couple of dozens of cases instead of facing the list of hundreds of false positive they were used to until 2017.     
+
+The proofs checker helps the Physics Office staff in a tedious task, but is far from being a perfect tool. 
+It needs to be continuously maintained and updated looking for new unexpected cases,
+changes in publication layouts, new conventions in the author lists and their format.
+A list of further improvements are on the developers agenda,
+with the goal of having the user manually check just a couple of dozen cases instead of facing the list of hundreds of false positive they were used to until 2017.
