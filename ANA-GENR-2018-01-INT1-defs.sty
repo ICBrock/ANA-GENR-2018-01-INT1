@@ -9,6 +9,21 @@
 \newcommand*{\Structure}[1]{\texttt{#1}\xspace}
 \newcommand*{\File}[1]{\texttt{#1}\xspace}
 
+% Listings
+\definecolor{Comments}{rgb}{0,0.63,1}
+\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\lstset{
+  backgroundcolor=\color{white},
+  basicstyle=\ttfamily\scriptsize,
+  commentstyle=\color{Comments}\slshape,
+  keywordstyle=\color{Keywords}\bfseries,
+  stringstyle=\color{Strings},
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+}
 % Macros for comments
 \newcommand{\IBnote}[3][]{\tZqnote[author=Ian, #1]{#2}{#3}{magenta!20}{magenta}}
 \newcommand{\FMnote}[3][]{\tZqnote[author=Fairouz,#1]{#2}{#3}{green!20}{green!50!black!60}}

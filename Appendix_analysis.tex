@@ -1,0 +1,202 @@
+%------------------------------------------------------------------------------
+\section{Classes for analysis and paper phases}%
+\label{app:analysis}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\subsection{\Class{Graph} class}%
+\label{app:analysis:graph}
+
+\begin{lstlisting}
+abstract class Graph
+{
+    abstract public function addNode(Node $node);
+    abstract public function deleteNode(Node $node);
+    abstract public function addEdge(Edge $edge);
+    abstract public function deleteEdge(Edge $edge);
+    abstract public function clean();
+}
+\end{lstlisting}
+
+%------------------------------------------------------------------------------
+\subsection{\Class{Action} class}%
+\label{app:analysis:action}
+
+\begin{lstlisting}
+class Action
+{
+    protected $inputs;
+    protected $outputs;
+    protected $callback;
+
+    public function __construct()
+    {
+        $this->inputs = array();
+        $this->outputs = array();
+    }
+
+    public function setCallback($callback)
+    {
+        $this->callback = $callback;
+    }
+
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    public function setInputs($inputs)
+    {
+        $this->inputs = $inputs;
+    }
+
+    public function trigger()
+    {
+        $this->outputs = call_user_func_array($this->callback, $this->inputs);
+    }
+
+    public function getOutputs()
+    {
+        return $this->outputs;
+    }
+}
+\end{lstlisting}
+
+
+%------------------------------------------------------------------------------
+\subsection{\Class{Workflow} class}%
+\label{app:analysis:workflow}
+
+\begin{lstlisting}
+{
+    "label" : "Analysis definition after EOI meeting",
+    "identifier" : "analysis_definition",
+    "inputs" : [
+        {
+            "label": "Main physics aim",
+            "name": "main_physics_aim",
+            "about": "",
+            "type": "textarea",
+            "rules": {
+                "maxlength": 500
+            },
+            "edit": {
+                "usergroups": [
+                    "GROUP_CONVENER",
+                    "SUBGROUP_CONVENER",
+                    "PROJECT_LEADER"
+                ]
+            }
+        }
+    ],
+    "actions" : [
+        {
+            "next_state" : "analysis_coordinators_selection",
+            "callback": {
+                "class": "Atlas\\Analysis\\Analysis\\WorkflowActions",
+                "method": "proceed"
+            },
+            "usergroups": [
+                "GROUP_CONVENER",
+                "SUBGROUP_CONVENER",
+                "PROJECT_LEADER"
+            ]
+        }
+    ],
+    "notifications" : [
+        {
+            "template" : "EOI_MEETING_RESULTS",
+            "task": "proceed",
+            "deploy_on": "taskTriggers"
+ },
+        {
+            "template" : "ANALYSIS_COORDINATOR_REQUEST",
+            "task": "proceed",
+            "deploy_on": "taskTriggers"
+        }
+    ]
+}
+\end{lstlisting}
+
+%------------------------------------------------------------------------------
+\subsection{\Class{EgroupMananger} class}%
+\label{app:analysis:egroupmanager}
+
+\begin{lstlisting}
+{
+    "id" : "ANALYSIS_TEAM",
+    "type" : "Analysis Team",
+    "name" : "atlas-%ref_code%-analysis-team",
+    "description" : "Analysis Team of %ref_code% (%short_title%)",
+    "topic": "ATLAS PubComm",
+    "admin_egroup" : "atlas-paperlists-admin",
+    "members" : [
+        {
+            "type" : "field",
+            "field" : "analysis_team"
+        }
+    ],
+    "posting_exceptions" : [
+        {
+            "name" : "atlas-readaccess-current-physicists",
+            "type" : "StaticEgroup"
+        },
+        {
+            "name" : "service-cds-mail-robots",
+            "type" : "StaticEgroup"
+        }
+    ]
+}
+\end{lstlisting}
+
+
+%------------------------------------------------------------------------------
+\subsection{\Class{User} authorisation class}%
+\label{app:analysis:userauthorise}
+
+\begin{lstlisting}
+public function is_expert() 
+{
+    return $this->has_egroup("MailboxForwarding-atglance") || $this->has_egroup("fence-developers");
+}
+
+public function hasPermission($permission)
+{
+    return in_array($permission, $this->permissions);
+}
+\end{lstlisting}
+
+
+%------------------------------------------------------------------------------
+\subsection{\Class{User} edit class}%
+\label{app:analysis:useredit}
+
+\begin{lstlisting}
+"pub_short_title": {
+                "label": "Public short title",
+                "sublabel": "Plain text, no LaTeX",
+                "type": "textarea",
+                "rules": {
+                    "maxlength": 1000,
+                    "character_not_allowed": ["\\", "$"]
+                },
+                "analysis_roles": [
+                        "GROUP_CONVENER",
+                        "SUBGROUP_CONVENER",
+                        "PROJECT_LEADER"
+                ]
+            }
+\end{lstlisting}
+
+Taking the \texttt{GROUP\_CONVENER} role as an example, it uses the following method to grant permission to edit the Public short title field:
+
+\begin{lstlisting}
+public function is_subgroup_convener($publication_id = null)
+{
+        if ($publication_id === null) return false;
+        foreach ($this->subgroup_convener_publications as $line => $row) {
+                if (strpos($row['PUB_LIST'], strval($publication_id)) !== FALSE) return true;
+        }
+        return false;
+}
+\end{lstlisting}

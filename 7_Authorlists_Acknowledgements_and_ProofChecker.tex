@@ -123,8 +123,8 @@ Hence Python was chosen to accomplish this role.
 
 The main issue was to find a way to get the best match among all the items of an array of institutes and authors,
 because we cannot blindly rely on finding an author or institute in the same position of the sequence.
-It is therefore not possible to just compare author~1 in the xml file with author~1 in the pdf file and so on.
-For this purpose the concept of Levenshtein distance (\cref{sec:app16}) has been used,
+It is therefore not possible to just compare \texttt{author~1} in the xml file with \texttt{author~1} in the pdf file and so on.
+For this purpose the concept of Levenshtein distance (\cref{app:proofs:levenshtein}) has been used,
 so that a weighted index of similarity can be obtained to \enquote{decide} what is matched with what, and to then effectively start checking for anomalies.
 
 At the end, a feature was developed to help the script to evaluate as perfect matches some that wouldn’t otherwise.
@@ -159,7 +159,7 @@ An example of a working synonym is:
 
 These differences are acceptable, since the main information is correctly displayed and no real errors are found.
 
-All the synonym records are managed using a JSON file and split by institutes and authors (\cref{sec:app13} and \cref{sec:app14}).
+All the synonym records are managed using a JSON file and split by institutes and authors (\cref{app:proofs:institute,app:proofs:author}).
 Having this as a JSON file allows the proof checker script to easily parse the records and understand if the faults must be marked as journal errors or if they should be skipped.
 
 %------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ After confirmation, this will be added to the list of synonyms and will be taken
 The proofs checker provides a report after its run, one for each paper and draft version.
 This report is provided and stored in a JSON file and must be parsed to show the report results in a human readable way.
 This is done by the \texttt{proof\_report} webpage (\cref{fig:proof_report_webpage}).
-The report contains all the paper information plus the real comparison results split by issue sections (see \cref{sec:app15}).
+The report contains all the paper information plus the real comparison results split by issue sections (see \cref{app:proofs:report}).
 The JSON file contains more information than that which is displayed;
 this is done to allow the webpage to understand the correct way to show the huge amount of information and for future improvements.
 The webpage contains some \enquote{hidden} sections that are produced by the proof checker thanks to the known synonyms,

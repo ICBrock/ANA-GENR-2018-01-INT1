@@ -39,18 +39,18 @@ A brief explanation of the usage of each one is presented next.
 
 The \Class{Workflow} class was developed based on the concept of Graphs, that encompasses the relation between objects. In this context, objects are called nodes and the relation between them are called edges, that can be a directional flow or not. To represent this concept through a codified depiction, some classes were created.
 
-The abstract \Class{Graph} class, whose code can be found in \cref{sec:app1}, has a few simple implemented methods that allow the addition and deletion of nodes and edges.
+The abstract \Class{Graph} class, whose code can be found in \cref{app:analysis:graph}, has a few simple implemented methods that allow the addition and deletion of nodes and edges.
 The class that implements \Class{Graph} is called \Class{MapperGraph} and it stores nodes and edges inside a PHP data structure called \Structure{PSplObjectStorage}, that, for this implementation, could better manage objects than associative arrays.
 The usage of this data structure allowed the development of very simple methods to retrieve neighbour nodes or even edges given its origin and target node, which means retrieving a directional edge.
 
 The \Class{Node} class defines methods to set and get data related to one node. The Edge class defines similar methods, but related to an edge. An example of data that can be added to an edge is an instance of the \Class{Action} class, having methods to set and get function callbacks, defining its arguments and being able to access its outputs.
-More details about the \Class{Action} class implementation can be found in \cref{sec:app2}.
+More details about the \Class{Action} class implementation can be found in \cref{app:analysis:action}.
 
 The \Class{Workflow} class, one of the most important classes of the Analysis/Phase 0 system since it is mainly characterised with Phase 0 steps with actions in between them, uses the Graph, Node, Edge and Action classes. It defines nodes as being Phase 0 steps, edges as being the relation between them and having actions being triggered, for example, sending automatic emails, updating egroups~\cite{egroups} and saving data in the Database.
 
 The behaviour of the \Class{Workflow} class is controlled by a JSON file, following the FENCE pattern described in \cref{sec:Configuration_files_in_FENCE}.
 This file defines all Phase 0 steps, having their identifiers and the inputs that should be rendered in each step, specifying their types, rules and permissions.
-It also has the actions that can be triggered from one step with their function callback and the next state which the workflow should be moved to. An example is shown in \cref{sec:app3}.
+It also has the actions that can be triggered from one step with their function callback and the next state which the workflow should be moved to. An example is shown in \cref{app:analysis:workflow}.
 
 The \GSnote{example}{Show an except of that JSON file here? Don't just tell, also show!} is a part of the JSON file setting the step for analysis definition
 after the Expression of Interest (EOI) meeting.
@@ -102,7 +102,7 @@ Also, it does not allow users to edit the templates from the interface since the
 The \Class{EgroupManager} class first uses another FENCE class to get the templates from the JSON file called \File{JReader}, designed to parse JSON files and save them in an object.
 After getting the JSON templates, \Class{EgroupManager} parses it substituting all the variables.
 
-One example that can be found in \cref{sec:app4} is the Analysis Team egroup created when there is a new Analysis/Phase 0 entry.
+One example that can be found in \cref{app:analysis:egroupmanager} is the Analysis Team egroup created when there is a new Analysis/Phase 0 entry.
 The template contains its identification, the name of the egroup with already one variable to be substituted, the Analysis/Phase 0 reference code.
 It also defines a topic, administrator egroup and posting exceptions, some mandatory parameters to create an egroup through its API\@.
 The members of the egroup will then be substituted by the Analysis team members when the \Class{EgroupManager} class parses the variables.
@@ -116,7 +116,9 @@ To do so, it first makes an authentication and, using the methods available in t
 \label{sec:User_class}
 
 The main purpose of the \Class{User} class is to define an object that stores information concerning the logged in CERN member, for instance, his or her CERN CCID, first and last name, egroups and others attributes. Besides that, it defines specific methods, to facilitate the access control among the interface.
-In \cref{sec:app5}, we have two examples of the above mentioned methods. These are used to check user \GSnote{clearance}{authorization}: \Class{is$\_$expert()} checks if the user is member of \enquote{fence-developers} egroup, which is composed by the project developers. % chktex 36
+In \cref{app:analysis:userauthorise}, we have two examples of the above mentioned methods.
+These are used to check user \GSnote{clearance}{authorization}:
+\Class{is$\_$expert()} checks if the user is member of \enquote{fence-developers} egroup, which is composed by the project developers. % chktex 36
 The method \Class{Permission($\$$permission)} accepts a permission to be checked as an argument and verifies if it is among the user permissions inventory. % chktex 36
 Moreover, when an extension of \Class{User} is created, extra methods are appended to \Class{User} to provide specific \textit{utils} for a context.
 This way, every system has its own \Class{User} class extending the FENCE core \Class{User} class.
@@ -126,7 +128,7 @@ These files provide multiple properties that set access control and edit permiss
 In this case, \Class{User} class verifies the clearance by comparing the user egroups and user groups to the ones contained on its object.
 The other way concerns inputs edit permissions and uses analysis specific roles to do so.
 These roles are keys mapped to methods in \Class{User} class that check if the member is supposed to have edit permission on that specific field.
-\GSnote{An example is shown in \cref{sec:app6}}{Why can't we show the example here near the explanation?}.
+\GSnote{An example is shown in \cref{app:analysis:useredit}}{Why can't we show the example here near the explanation?}.
 
 
 %------------------------------------------------------------------------------

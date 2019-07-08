@@ -22,6 +22,7 @@
 \usepackage{\ATLASLATEXPATH atlaspackage}
 \usepackage{fontawesome}
 \usepackage{cleveref}
+\usepackage{listings}
 % Commonly used options:
 %  biblatex=true|false   Use biblatex (default) or bibtex for the bibliography.
 %  subfigure|subfig|subcaption  to use one of these packages for figures in figures.
@@ -62,7 +63,6 @@
 
 % Add you own definitions here (file ANA-GENR-2018-01-INT1-defs.sty).
 \usepackage{ANA-GENR-2018-01-INT1-defs}
-\usepackage{listings}
 
 %-------------------------------------------------------------------------------
 % Generic document information
@@ -157,25 +157,21 @@
 \part*{Appendix}
 \addcontentsline{toc}{part}{Appendix}
 %-------------------------------------------------------------------------------
-\input{Appendix_1}
-\input{Appendix_2}
-\input{Appendix_3}
-\input{Appendix_4}
-\input{Appendix_5}
-\input{Appendix_6}
-\input{Appendix_7}
-\input{Appendix_8}
-\input{Appendix_9}
-\input{Appendix_16}
+\input{Appendix_analysis}
+% \input{Appendix_2}
+% \input{Appendix_3}
+% \input{Appendix_4}
+% \input{Appendix_5}
+% \input{Appendix_6}
+\input{Appendix_fencegitlab}
+% \input{Appendix_8}
+% \input{Appendix_9}
 \input{Appendix_authorlist}
+\input{Appendix_proofs}
 % \input{Appendix_11}
 % \input{Appendix_12}
-\input{Appendix_13}
-\input{Appendix_14}
-\input{Appendix_15}
-
-%-------------------------------------------------------------------------------
-
-%In an ATLAS note, use the appendices to include all the technical details of your work that are relevant for the ATLAS Collaboration only (e.g.\ dataset details, software release used). This information should be printed after the Bibliography.
+% \input{Appendix_13}
+% \input{Appendix_14}
+% \input{Appendix_15}
 
 \end{document}

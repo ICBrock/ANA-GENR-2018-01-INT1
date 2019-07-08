@@ -51,15 +51,17 @@ In fact, it is mostly used by the Analysis systems within the Analysis Gitlab in
 Through the main class, called \Class{Gitlab}, it is possible to handle all the basic operations offered by the API\@: create, get and customise settings for projects, groups, branches, handle commits and many other actions defined and explained in the Gitlab REST API documentation~\cite{rest_api}.
 
 Each API endpoint can be accessed by one of the following HTTP methods: GET, POST, DELETE and PUT\@.
-The FENCE Gitlab class uses them through methods detailed in \cref{sec:app7}.
-Each of those methods make a call to \Class{execMethod}, in \cref{sec:app8}, that configures the endpoint using the PHP CURL methods~\cite{php_curl} and executes one of the HTTP methods, returning the REST API answer, that can be a JSON file with metadata, or just a success, or an error message.
+The FENCE--\gitlab class uses them through methods detailed in \cref{app:fence:gitlab:methods}.
+Each of those methods make a call to \Class{execMethod}, in \cref{app:fence:gitlab:execmethod},
+that configures the endpoint using the PHP CURL methods~\cite{php_curl} and executes one of the HTTP methods, returning the REST API answer, that can be a JSON file with metadata, or just a success, or an error message.
 
 The metadata returned by the \Class{execMethod} is then used to populate the attributes of many classes representing some \gitlab elements like:
 \texttt{Branch, File, Commit, Project, Group, Label} and \texttt{Member}.
 These can be then manipulated by any FENCE system.
 
 An example is the creation of a paper repository.
-The \Class{createProject} method (see \cref{sec:app9}) is called having the project name as the first argument (or even an instance of the \Class{Project} class) and project parameters as the second argument like path, namespace, default branch, description and others.
+The \Class{createProject} method (see \cref{app:fence:gitlab:createproject}) is called having the project name as the first argument
+(or even an instance of the \Class{Project} class) and project parameters as the second argument like path, namespace, default branch, description and others.
 The method calls the POST method mentioned above and stores the new repository metadata in a FENCE \Class{Project} object, which can be used for further manipulations.
 
 \GSnote{}{Example code snippet here???}
