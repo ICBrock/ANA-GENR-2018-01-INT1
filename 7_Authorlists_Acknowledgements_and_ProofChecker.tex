@@ -11,28 +11,30 @@
 \subsection{Author lists and Acknowledgments files}%
 \label{sec:Author_lists_and_acknowledgments_files}
 
-Both types of files, the author list and the acknowledgements, are built using the FENCE framework, see \cref{fig:authorlist_interface},
+\GSnote{}{This feels sliiiiightly similar to \cref{sec:Authorlists_acknowledgments_and_ProofChecker} and perhaps combining the two will be helpful somehow...}
+
+Both types of \GSnote{files}{Not types, but categories. These files are JSON type files, no?}, the author list and the acknowledgements, are built using the FENCE framework, see \cref{fig:authorlist_interface},
 and automatically pushed to the appropriate Gitlab repository, using the FENCE--\gitlab integration (\cref{sec:FENCE-Gitlab_Integration}).
-Their integration into the paper is straightforward for a future submission to a journal.
+Their integration into the paper is straightforward for a \GSnote{future submission to a journal}{Not everything is submitted to a journal, what about CONF and PUB?}.
 FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
- 
-The author list XML file is composed of three main blocks:
+
+The author list \GSnote{XML file}{First time mentioning XML. Why XML when everything else was JSON?} is composed of three main blocks:
 \begin{itemize}
 \item Header: store paper main information (\cref{app:author:xmlheader})
 \item Institutes: list of institutes and their references (\cref{app:author:xmlinstitute})
 \item Authors: list of authors for this author list with their information (\cref{app:author:xmlauthor})
 \end{itemize}
- 
+
 The XML file is the one used as a \enquote{role}, since it contains all the information needed to build the other files.
 It is the first one to be generated and a backup version of the first release of the author list is stored.
- 
+
 The acknowledgment \File{tex} file is built using a standard template and is filled using the FENCE framework to retrieve the required information about the ATLAS Funding Agencies.
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{figures/authorlist_interface.png}%
   \caption{FENCE author list interface.
-    The first five entries in the list are GitLab projects.}%
+  The first five entries in the list are GitLab projects. \GSnote{}{They're not all gitlab projects? Just crop this to show only the first five then. I'm confused here. Expand this caption more too.}}%
   \label{fig:authorlist_interface}
 \end{figure}
 
@@ -43,21 +45,21 @@ The acknowledgment \File{tex} file is built using a standard template and is fil
 The FENCE author list interface, \cref{fig:authorlist_interface}, shows the complete set of author lists created for each ATLAS paper that has been published since 2009 or is being submitted.
 They are easily filtered using the SEARCH box option.
 All the columns are self-explanatory; in the last column the dropdown menu gives access to the author list location, which can be distinguished by the icon:
-a download icon (\faDownload) means the files are stored in AFS and can be downloaded.
-A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats (\File{tex, xml, csv, pdf, cds}) and structures (by country/institutes, or institutes only). 
+a download icon (\GSnote{\faDownload}{Please make FontAwesome part of the detail ATLAS latex. Please. This is probably more for Ian, but ok.}) means the files are stored in AFS and can be downloaded.
+A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats (\GSnote{\File{tex, xml, csv, pdf, cds}}{What's the CDS file format?}) and structures (by country/institutes, or institutes only).
 
 %------------------------------------------------------------------------------
 \subsection{Proof checker functionalities}
 \label{sec:Proof_checker_functionalities}
 
 Once the author list is sent to the journal together with the publication,
-it is time to check if the publisher correctly used the information provided by going through the journal PDFF file sent to ATLAS Physics Office and comparing it to the \File{xml/tex} file.
-This process, which used to be done by hand, required the officer to verify if each author ($\sim$2800) and each institute ($\sim$200) is correctly reported and matched. 
+it is time to check if the publisher correctly used the information provided by going through the journal \GSnote{PDFF}{PDF} file sent to ATLAS Physics Office and comparing it to the \File{xml/tex} file.
+This process, which used to be done by hand, required the officer to verify if each author ($\sim$2800) and each institute ($\sim$200) is correctly reported and matched.
 For this purpose, a tool, the proof checker, was created to automatically poll the proof directories for new PDF documents uploaded.
 If it finds a document that has not been checked before, it starts the following process:
 
 \begin{itemize}
-\item retrieve the information from the XML file created on Paper Submission Phase;
+\item retrieve the information from the \GSnote{XML file}{Which XML file} created on Paper Submission Phase;
 \item extract the text from the journal PDF file;
 \item parse the text from the PDF file, creating the target reference;
 \item compare the official reference obtained from the XML file with the target reference;
@@ -68,17 +70,19 @@ If it finds a document that has not been checked before, it starts the following
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{collaboration_proofs}
-  \caption{ATLAS collaboration proofs main page.}
+  \caption{ATLAS collaboration proofs main page. \GSnote{}{Please expand caption with more detail... e.g. what are the columns?}}
   \label{fig:collaboration_proofs}
 \end{figure}
 
-The main difficulties in this process rely on extracting the content from the PDF file; the text is not easily retrieved for different reasons. 
-One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footers and headings. 
+\GSnote{}{What does an example good proof and bad proof look like?}
+
+The main difficulties in this process rely on extracting the content from the PDF file; the text is not easily retrieved for different reasons.
+One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footers and headings.
 Another reason is that words extracted from a PDF file don’t follow a specific coding convention:
 it can contain non-ASCII characters that can be output in many different ways;
 the PDF file can specify a predefined encoding to use, or provide a lookup table of differences between a predefined and a built-in encoding;
 for fonts with non-common Latin characters, which is always the case for these kind of publications and content,
-special encodings are used and it is necessary to provide a ToUnicode table where semantic information about the characters has to be preserved. 
+special encodings are used and it is necessary to provide a ToUnicode table where semantic information about the characters has to be preserved.
 Also the proof checker has to pass through all the publication text and try to \enquote{understand} where the author list starts, where it ends, where the institute list starts and when it ends.
 All this is made even more difficult due to the fact that different publishers have different layouts, and create different versions of PDF files.
 This makes all of the above problems not generic,
@@ -137,7 +141,7 @@ The list of synonyms is updated manually, but a tool, the Synonym webpage (\cref
 
 The comparison between PDF file (coming from the Journals) and the XML file (provided by FENCE author list interface) generates a lot of false positives as described in \cref{sec:Report_page}:
 special characters encoding can be different, countries sometimes are spelled differently, etc.
-To avoid having a huge list of these kind of false positives in the report page that can confuse the users, the new version of the proof checker includes a \enquote{synonyms} list that allows the comparison script to understand if the difference is a real error or another correct way to display the same information. 
+To avoid having a huge list of these kind of false positives in the report page that can confuse the users, the new version of the proof checker includes a \enquote{synonyms} list that allows the comparison script to understand if the difference is a real error or another correct way to display the same information.
 \IBnote{}{Isn't this a repeat of the above?}
 An example of a working synonym is:
 \begin{table}[htb]
@@ -160,7 +164,7 @@ Having this as a JSON file allows the proof checker script to easily parse the r
 \subsubsection{Synonym webpage}
 \label{sec:Synonym_webpage}
 
-To manage the list of proofs checker synonyms ATLAS PO provides a webpage that allows users to search for an existing entry and manage the record synonyms. 
+To manage the list of proofs checker synonyms ATLAS PO provides a webpage that allows users to search for an existing entry and manage the record synonyms.
 Searching for an institute, or author, will display the list of records that match the searching criteria (\cref{fig:synonym_webpage}) and allows the users to edit the synonyms for the record.
 Clicking the edit icon shows a new page section where users can insert their own known synonym for the record.
 After confirmation, this will be added to the list of synonyms and will be taken into account by the next run of the proofs checker.
@@ -193,7 +197,7 @@ Here the page will show all the false positive results that the proofs checker f
   \label{fig:proof_report_webpage}
 \end{figure}
 
-The proofs checker helps the Physics Office staff in a tedious task, but is far from being a perfect tool. 
+The proofs checker helps the Physics Office staff in a tedious task, but is far from being a perfect tool.
 It needs to be continuously maintained and updated looking for new unexpected cases,
 changes in publication layouts, new conventions in the author lists and their format.
 A list of further improvements are on the developers agenda,
