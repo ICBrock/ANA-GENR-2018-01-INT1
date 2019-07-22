@@ -80,7 +80,7 @@ If it finds a document that has not been checked before, it starts the following
 
 The main difficulties in this process rely on extracting the content from the PDF file; the text is not easily retrieved for different reasons.
 One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footers and headings.
-Another reason is that words extracted from a PDF file donât follow a specific coding convention:
+Another reason is that words extracted from a PDF file don't follow a specific coding convention:
 it can contain non-ASCII characters that can be output in many different ways;
 the PDF file can specify a predefined encoding to use, or provide a lookup table of differences between a predefined and a built-in encoding;
 for fonts with non-common Latin characters, which is always the case for these kind of publications and content,
@@ -93,7 +93,7 @@ but often specific to a particular publisher.
 After the target reference is created, the comparison looks for:
 \begin{itemize}
 \item authors that seem to be missing from the PDF. Here, false positives are often due to characters encoding and spaces;
-\item authors with inconsistent punctuation. This section points out differences between original and target references authorsâ first names punctuation,
+\item authors with inconsistent punctuation. This section points out differences between original and target references authors's first names punctuation,
 which can follow the rules X. or X.Y. or X.-Y. or X-Y. with or without space;
 \item institutes that seem missing from the PDF. Here false positives are often due to non-standard characters that breaks the entry;
 \item institutes with close matches. All the entries that really look like the original but have some inconsistencies land in this group.
@@ -152,7 +152,7 @@ An example of a working synonym is:
   \textbf{Institute as stored into ATLAS DB \& XML file} \\
   Physics Department, SUNY Albany, Albany NY, United States of America \\
   \midrule
-  \textbf{Institute as written on the journalâs author list} \\
+  \textbf{Institute as written on the journal's author list} \\
   Physics Department, SUNY Albany, Albany, New York, USA
   \end{tabular}
 \end{table}
