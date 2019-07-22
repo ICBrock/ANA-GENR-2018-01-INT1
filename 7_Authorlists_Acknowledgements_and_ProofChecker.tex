@@ -80,7 +80,7 @@ If it finds a document that has not been checked before, it starts the following
 
 The main difficulties in this process rely on extracting the content from the PDF file; the text is not easily retrieved for different reasons.
 One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footers and headings.
-Another reason is that words extracted from a PDF file don’t follow a specific coding convention:
+Another reason is that words extracted from a PDF file donât follow a specific coding convention:
 it can contain non-ASCII characters that can be output in many different ways;
 the PDF file can specify a predefined encoding to use, or provide a lookup table of differences between a predefined and a built-in encoding;
 for fonts with non-common Latin characters, which is always the case for these kind of publications and content,
@@ -93,13 +93,13 @@ but often specific to a particular publisher.
 After the target reference is created, the comparison looks for:
 \begin{itemize}
 \item authors that seem to be missing from the PDF. Here, false positives are often due to characters encoding and spaces;
-\item authors with inconsistent punctuation. This section points out differences between original and target references authors’ first names punctuation,
+\item authors with inconsistent punctuation. This section points out differences between original and target references authorsâ first names punctuation,
 which can follow the rules X. or X.Y. or X.-Y. or X-Y. with or without space;
 \item institutes that seem missing from the PDF. Here false positives are often due to non-standard characters that breaks the entry;
 \item institutes with close matches. All the entries that really look like the original but have some inconsistencies land in this group.
   Some publishers expand(or contract) USA to United States of America,
   or there is a new character that does not break the institute entry,
-  but makes it so that the match is not perfect match, such as \enquote{Università} and \enquote{Universit` a};
+  but makes it so that the match is not perfect match, such as \enquote{UniversitÃ } and \enquote{Universit` a};
 \item Mismatched authors. All the authors collaborate through one or more institutes.
   It is checked that the link between the author and the institute is consistent.
   This sometimes results in a false positive,
@@ -107,7 +107,7 @@ which can follow the rules X. or X.Y. or X.-Y. or X-Y. with or without space;
   mainly because the text coming from the PDF file is often full of other elements such as line numbers of the document.
   For this reason an author originally assigned to institute number X, can result matched with target institute YX,
   because in the text extracted from the pdf the number X might be preceded by a Y line number;
-  institute YX mostly doesn’t exist or eventually comes to be another institute;
+  institute YX mostly doesnât exist or eventually comes to be another institute;
 \item Deceased authors. In two categories we show a list, often empty, of authors that we signed as deceased but the publication forgot to mark, or vice-versa.
   The results here are pretty reliable;
 \item Missing funding agencies, or wrongly added by the publisher are checked.
@@ -127,11 +127,11 @@ It is therefore not possible to just compare \texttt{author~1} in the xml file w
 For this purpose the concept of Levenshtein distance (\cref{app:proofs:levenshtein}) has been used,
 so that a weighted index of similarity can be obtained to \enquote{decide} what is matched with what, and to then effectively start checking for anomalies.
 
-At the end, a feature was developed to help the script to evaluate as perfect matches some that wouldn’t otherwise.
+At the end, a feature was developed to help the script to evaluate as perfect matches some that wouldnât otherwise.
 A list of \enquote{synonyms} is created for every entry, author or institute,
 to teach the proof checker to validate similar strings when the differences are due only to problems we have when decoding the text from the PDF file.
-So, for instance, if author \textbf{A. Filipčič} is not found in the target reference,
-but from the PDF entries we extracted an author with name \textbf{A. Filipž ciž c}, then,
+So, for instance, if author \textbf{A. FilipÄiÄ} is not found in the target reference,
+but from the PDF entries we extracted an author with name \textbf{A. FilipÅŸ ciÅŸ c}, then,
 as it has been previously verified that in the PDF file the name appears as expected, the proof checker considers it a perfect match, and skips the problem.
 A very long list of false positives can be found in the report page as \enquote{skipped items}.
 The list of synonyms is updated manually, but a tool, the Synonym webpage (\cref{sec:Synonym_webpage}), has been created to allow users to update this list themselves.
@@ -152,7 +152,7 @@ An example of a working synonym is:
   \textbf{Institute as stored into ATLAS DB \& XML file} \\
   Physics Department, SUNY Albany, Albany NY, United States of America \\
   \midrule
-  \textbf{Institute as written on the journal’s author list} \\
+  \textbf{Institute as written on the journalâs author list} \\
   Physics Department, SUNY Albany, Albany, New York, USA
   \end{tabular}
 \end{table}
