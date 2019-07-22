@@ -1,0 +1,177 @@
+%-------------------------------------------------------------------------------
+% This file is for the Glance-GitLab supporting note about the ATLAS publication procedure
+% \pdfinclusioncopyfonts=1
+% This command may be needed in order to get \ell in PDF plots to appear. Found in
+% https://tex.stackexchange.com/questions/322010/pdflatex-glyph-undefined-symbols-disappear-from-included-pdf
+%-------------------------------------------------------------------------------
+% Specify where ATLAS LaTeX style files can be found.
+\newcommand*{\ATLASLATEXPATH}{latex/}
+% Use this variant if the files are in a central location, e.g. $HOME/texmf.
+% \newcommand*{\ATLASLATEXPATH}{}
+%-------------------------------------------------------------------------------
+\documentclass[NOTE, atlasdraft=true, texlive=2016, UKenglish, txfonts]{\ATLASLATEXPATH atlasdoc}
+% Use txfonts while the note is in Overleaf, due to a newtx bug with this TeX Live version.
+% Commonly used options:
+%  atlasdraft=true|false This document is an ATLAS draft.
+%  texlive=YYYY          Specify TeX Live version (2016 is default).
+%  txfonts=true|false    Use txfonts rather than the default newtx
+%  paper=a4|letter       Set paper size to A4 (default) or letter.
+
+%-------------------------------------------------------------------------------
+% Extra packages:
+\usepackage{\ATLASLATEXPATH atlaspackage}
+\usepackage{fontawesome}
+\usepackage{cleveref}
+\usepackage{listings}
+% Commonly used options:
+%  biblatex=true|false   Use biblatex (default) or bibtex for the bibliography.
+%  subfigure|subfig|subcaption  to use one of these packages for figures in figures.
+%  minimal               Minimal set of packages.
+%  default               Standard set of packages.
+%  full                  Full set of packages.
+%-------------------------------------------------------------------------------
+% Style file with biblatex options for ATLAS documents.
+\usepackage{\ATLASLATEXPATH atlasbiblatex}
+
+% Package for creating list of authors and contributors to the analysis.
+\usepackage{\ATLASLATEXPATH atlascontribute}
+
+% Useful macros
+\usepackage[hepparticle]{\ATLASLATEXPATH atlasphysics}
+\sisetup{binary-units}
+% See doc/atlas_physics.pdf for a list of the defined symbols.
+% Default options are:
+%   true:  journal, misc, particle, unit, xref
+%   false: BSM, heppparticle, hepprocess, hion, jetetmiss, math, process, other, texmf
+% See the package for details on the options.
+
+% Files with references for use with biblatex.
+% Note that biber gives an error if it finds empty bib files.
+\addbibresource{ANA-GENR-2018-01-INT1.bib}
+\addbibresource{bib/ATLAS.bib}
+\addbibresource{bib/CMS.bib}
+\addbibresource{bib/ConfNotes.bib}
+\addbibresource{bib/PubNotes.bib}
+
+% Paths for figures - do not forget the / at the end of the directory name.
+\graphicspath{{logos/}{figures/}}
+
+% Turn notes/comments on/off
+\newif\ifPrintNotes
+%\PrintNotesfalse  % to turn off printing of notes
+\PrintNotestrue    % to turn on printing of notes
+
+% Add you own definitions here (file ANA-GENR-2018-01-INT1-defs.sty).
+\usepackage{ANA-GENR-2018-01-INT1-defs}
+
+%-------------------------------------------------------------------------------
+% Generic document information
+%-------------------------------------------------------------------------------
+
+% Title, abstract and document
+\input{ANA-GENR-2018-01-INT1-metadata}
+% Author and title for the PDF file
+\hypersetup{pdftitle={ATLAS document},pdfauthor={The ATLAS Collaboration}}
+
+%-------------------------------------------------------------------------------
+% Content
+%-------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\ifPrintNotes
+  \listoftodos
+\fi
+
+% List of contributors - print here or after the Bibliography.
+\PrintAtlasContribute{0.30}
+\clearpage
+
+%You can find some text snippets that can be used in papers in \texttt{template/atlas-snippets.tex}. Some of the snippets need the \texttt{jetetmiss} option passed to \texttt{atlasphysics}.
+%\input{atlashttps://www.overleaf.com/9258629422mxtqkrkpnnpt-snippets}
+
+%-------------------------------------------------------------------------------
+% Introduction
+\input{1_Introduction}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% ATLAS work strategy
+\input{2_ATLAS_work_strategy}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 3 The FENCE project   
+\input{3_The_FENCE_project}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 4 Analysis and Paper Phases  
+\input{4_Analysis_and_paper_phases}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 5 PO-Gitlab and CI tools
+\input{5_PO-Gitlab_and_CI_tools}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 6 FENCE and Gitlab integration
+\input{6_FENCE_and_Gitlab_integration}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 7 Author lists, Acknowledgements and Proof Checker
+\input{7_Authorlists_Acknowledgements_and_ProofChecker}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 8 Handling the metadata
+\input{8_Handling_the_metadata}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% 9 Conclusion
+\input{9_Conclusion}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% Bibliography
+\clearpage
+\printbibliography
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% Glossary
+\clearpage
+\input{Glossary}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+\clearpage
+\appendix
+\part*{Appendix}
+\addcontentsline{toc}{part}{Appendix}
+%-------------------------------------------------------------------------------
+\input{Appendix_analysis}
+% \input{Appendix_2}
+% \input{Appendix_3}
+% \input{Appendix_4}
+% \input{Appendix_5}
+% \input{Appendix_6}
+\input{Appendix_fencegitlab}
+% \input{Appendix_8}
+% \input{Appendix_9}
+\input{Appendix_authorlist}
+\input{Appendix_proofs}
+% \input{Appendix_11}
+% \input{Appendix_12}
+% \input{Appendix_13}
+% \input{Appendix_14}
+% \input{Appendix_15}
+
+\end{document}

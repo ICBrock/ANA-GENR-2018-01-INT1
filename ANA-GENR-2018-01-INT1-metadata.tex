@@ -1,0 +1,61 @@
+% Turn off some chktex warnings.
+% chktex-file 1 chktex-file 8 chktex-file 46
+%-------------------------------------------------------------------------------
+% This file contains the title, author and abstract.
+% It also contains all relevant document numbers used for an ATLAS note.
+%-------------------------------------------------------------------------------
+
+% Title
+\AtlasTitle{ATLAS publications and the role of Fence and GitLab}
+
+% Draft version:
+% Should be 1.0 for the first circulation, and 2.0 for the second circulation.
+% If given, adds draft version on front page, a 'DRAFT' box on top of each other page, 
+% and line numbers.
+% Comment or remove in final version.
+\AtlasVersion{0.1}
+
+% Abstract - % directly after { is important for correct indentation
+\AtlasAbstract{%
+  The ATLAS Collaboration develops and uses web systems and tools, defines methods, establishes procedures and organizes advisory groups to manage the publication processes of scientific papers, conference papers and public notes.
+  The so-called Phase 0 system was implemented using the FENCE framework and is integrated into the CERN Gitlab software repository, to automatically configure workspaces where the analysis can be documented, \IBnote{reviewed by a collaborative team}{What can be reviewed?}.
+  Continuous integration is used to guide the authors on using the accurate format while writing papers to be submitted to scientific journals.
+  The ATLAS Physics Office \IBnote{directives}{I don't think this is the right word here} promote communication among researchers and supports each phase of a publication process, allowing authors to focus on the article contents that describe the results and discoveries of the ATLAS experiment.
+}
+
+% Author - this does not work with revtex (add it after \begin{document})
+% \author{The ATLAS Collaboration}
+
+% Authors and list of contributors to the analysis
+% \AtlasAuthorContributor also adds the name to the author list
+% Include package latex/atlascontribute to use this
+% Use authblk package if there are multiple authors, which is included by latex/atlascontribute
+% \usepackage{authblk}
+% Use the following 3 lines to have all institutes on one line
+\makeatletter
+\renewcommand\AB@affilsepx{, \protect\Affilfont}
+\makeatother
+% \renewcommand\Authands{, } % avoid ``. and'' for last author
+% \renewcommand\Affilfont{\itshape\small} % affiliation formatting
+\AtlasAuthorContributor{Ian Brock}{a}{Writer and maintainer of ATLAS \LaTeX\ templates.}
+\AtlasAuthorContributor{Nuno Castro}{d}{\pogitlab responsible, development and maintenance.}
+\AtlasAuthorContributor{Maurizio Colautti}{f}{Developer: Fence, author list and Glance \gitlab integration, AFS and CDS related matters.}
+\AtlasAuthorContributor{Ana Carolina da Silva Menezes}{e}{Developer: Glance and Fence.}
+\AtlasAuthorContributor{Gabriel de Oliveira da Fonseca}{e}{Developer: Glance and Fence.}
+\AtlasAuthorContributor{Andreas Hoecker}{b}{Deputy Spokesperson in charge to follow PO and Glance Team tasks. Participation to the overal design, implementation and management of the project.}
+\AtlasAuthorContributor{Gabriela Lemos Lucidi Pinhao}{e}{Developer/Designer: Glance, Fence, Glance \gitlab integration.}
+\AtlasAuthorContributor{Carmen Maidantchik}{e}{Glance Team Supervisor.}
+\AtlasAuthorContributor{Fairouz Malek}{c}{Head of Physics Office and coordinator of Phase 0, Glance--\gitlab integration. Participation to the overal design, implementation and management of the project.}
+\AtlasAuthorContributor{Gianluca Picco}{f}{Developer: Fence, author list and Glance--\gitlab integration.}
+\AtlasAuthorContributor{Marcelo Texeira Dos Santos}{e}{\pogitlab developer and maintenance.}
+\affil[a]{Universität Bonn}
+\affil[b]{CERN}
+\affil[c]{LPSC Grenoble}
+\affil[d]{LIP Lisbon}
+\affil[e]{Rio de Janeiro}
+\affil[f]{Udine}
+% ATLAS reference code, to help ATLAS members to locate the paper
+\AtlasRefCode{ANA-GENR-2018-01}
+
+% ATLAS note number. Can be an COM, INT, PUB or CONF note
+\AtlasNote{ANA-GENR-2018-01-INT1}

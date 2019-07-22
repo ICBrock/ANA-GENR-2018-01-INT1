@@ -1,0 +1,21 @@
+% !TEX root = ANA-GENR-2018-01-INT1.tex
+% Turn off some chktex warnings.
+% chktex-file 1 chktex-file 8 chktex-file 46
+
+\section{Introduction}%
+\label{sec:Introduction}
+
+The Physics and Committees Office (PO) is an \GSnote{instance}{Is it really an instance?} of the ATLAS Collaboration constituted of physicists and engineers performing several tasks connected \GSnote{to the continuous support to ATLAS committees}{to the continuous support of...} and groups such as ATLAS management, Physics Coordinators, Publication Committee chairs, Analysis Group conveners, Authorship Committee, Speakers
+Committee and many others.
+
+The PO also provides \GSnote{support}{what kind of support?} to any member of the ATLAS collaboration. \GSnote{It is}{These include} helping with membership, authorship, paper submission to arXiv and journals, reviewing talks and posters to national and regional meetings, designing or participating to the development of many tools such as the \IBnote{Analysis and Papers}{Is this a proper name and used as such throughout the document?} handling systems, the Performance Plots and Proceedings Trackers, \GSnote{GitLab}{version control instead of GitLab, or just say Git?} for document editing, author lists and acknowledgements creation and maintenance.
+PO assists many other daily tasks to lower the load on each member of the collaboration, including the Physics Office itself.
+
+\GSnote{The ATLAS collaboration~\cite{PERF-2007-01}, comprises around 5000 active people from which there are around 3000 scientific authors.}{This should be moved to the first paragraph.}
+Consequently, a dedicated organisation of the work, detector maintenance and operation, data analysis and scientific publication and outreach has been set up, as described in \cref{sec:ATLAS_work_strategy}.
+Collaborative tools are thus needed to perform not only an efficient communication between the collaborators but also an easy manageable interaction with the outside world, namely the public notes, the publication journals, the institutions, the funding agencies, \GSnote{etc.}{etc? By now, we should know all that we interact/interface with, no? HEPData is also part of this.}
+
+In this report, we focus on the Analysis and Papers infrastructure and its most recent developments launched in fall 2017, described in \cref{sec:The_FENCE_project,sec:Analysis_and_paper_phases}.
+Due to the phasing out of the SVN system~\cite{svn}, \IBnote{the developers}{Is that us, or who is meant here?} built a user-friendly \GSnote{tool}{Tool is very generic phrasing. Is it a collection of scripts? Is it a package?} to handle any analysis and document type (for internal use or for a large publication) using the FENCE framework  together with GitLab~\cite{gitlab}, as described in \cref{sec:PO-Gitlab_and_CI_tools}.
+The FENCE--GitLab integration is described in \cref{sec:FENCE_and_Gitlab_integration}. In \cref{sec:Authorlists_Acknowledgements_and_ProofChecker}, a description of the main tools used to handle the collaboration author list and the funding and foundation agencies acknowledgements is given.
+A more general description of the way we manage the metadata is presented in \cref{sec:Handling_the_metadata}.
