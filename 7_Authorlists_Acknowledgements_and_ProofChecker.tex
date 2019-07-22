@@ -99,7 +99,7 @@ which can follow the rules X. or X.Y. or X.-Y. or X-Y. with or without space;
 \item institutes with close matches. All the entries that really look like the original but have some inconsistencies land in this group.
   Some publishers expand(or contract) USA to United States of America,
   or there is a new character that does not break the institute entry,
-  but makes it so that the match is not perfect match, such as \enquote{UniversitÃ } and \enquote{Universit` a};
+  but makes it so that the match is not perfect match, such as such as \enquote{Università} and \enquote{Universit` a};
 \item Mismatched authors. All the authors collaborate through one or more institutes.
   It is checked that the link between the author and the institute is consistent.
   This sometimes results in a false positive,
@@ -130,9 +130,8 @@ so that a weighted index of similarity can be obtained to \enquote{decide} what 
 At the end, a feature was developed to help the script to evaluate as perfect matches some that would not otherwise.
 A list of \enquote{synonyms} is created for every entry, author or institute,
 to teach the proof checker to validate similar strings when the differences are due only to problems we have when decoding the text from the PDF file.
-\IBnote{}{The following 2 lines were commented out, as the special characters got mangled.}
-% So, for instance, if author \textbf{A. FilipÄiÄ} is not found in the target reference,
-% but from the PDF entries we extracted an author with name \textbf{A. FilipÅŸ ciÅŸ c}, then,
+So, for instance, if author \textbf{A. Filipčič} is not found in the target reference,
+but from the PDF entries we extracted an author with name \textbf{A. Filipž ciž c}, then,
 as it has been previously verified that in the PDF file the name appears as expected, the proof checker considers it a perfect match, and skips the problem.
 A very long list of false positives can be found in the report page as \enquote{skipped items}.
 The list of synonyms is updated manually, but a tool, the Synonym webpage (\cref{sec:Synonym_webpage}), has been created to allow users to update this list themselves.
