@@ -18,7 +18,7 @@ and automatically pushed to the appropriate Gitlab repository, using the FENCE--
 Their integration into the paper is straightforward for a \GSnote{future submission to a journal}{Not everything is submitted to a journal, what about CONF and PUB?}.
 FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
 
-The author list \GSnote{XML file}{First time mentioning XML. Why XML when everything else was JSON?} is composed of three main blocks:
+The author list is build by the Fence framework into an \File{XML} file which contains a lot of infomation. It is composed of three main blocks:
 \begin{itemize}
 \item Header: store paper main information (\cref{app:author:xmlheader})
 \item Institutes: list of institutes and their references (\cref{app:author:xmlinstitute})
@@ -34,33 +34,39 @@ The acknowledgment \File{tex} file is built using a standard template and is fil
   \centering
   \includegraphics[width=0.9\textwidth]{figures/authorlist_interface.png}%
   \caption{FENCE author list interface.
-    The first five entries in the list are GitLab projects.
-    \GSnote[inline]{}{They're not all gitlab projects? Just crop this to show only the first five then. I'm confused here. Expand this caption more too.}}%
+    FENCE author list interface. This list contains all the author lists generated with some informations about their paper's reference and updates. The first five entries in the list are GitLab projects, the others are stored into AFS.}
   \label{fig:authorlist_interface}
 \end{figure}
 
 %------------------------------------------------------------------------------
-\subsection{Main functionalities of the FENCE Author list user interface}
+\subsection{Main functionalities of the FENCE author list user interface}
 \label{sec:Main_functionalities_of_the_FENCE_Author_list_user_interface}
 
 The FENCE author list interface, \cref{fig:authorlist_interface}, shows the complete set of author lists created for each ATLAS paper that has been published since 2009 or is being submitted.
 They are easily filtered using the SEARCH box option.
 All the columns are self-explanatory; in the last column the dropdown menu gives access to the author list location, which can be distinguished by the icon:
 a download icon (\GSnote{\faDownload}{Please make FontAwesome part of the detail ATLAS latex. Please. This is probably more for Ian, but ok.}) means the files are stored in AFS and can be downloaded.
-A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats (\GSnote{\File{tex, xml, csv, pdf, cds}}{What's the CDS file format?}) and structures (by country/institutes, or institutes only).
+A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats:
+\begin{itemize}
+\item tex: used by the Journal to include the author list into the publication
+\item xml: structured file containins all the author list information
+\item csv: comma separated values file used to export authorlist data 
+\item pdf: a view of the author list 
+\item cds: simple txt file with the author list information in the format: author: institute
+\end{itemize}
 
 %------------------------------------------------------------------------------
 \subsection{Proof checker functionalities}
 \label{sec:Proof_checker_functionalities}
 
 Once the author list is sent to the journal together with the publication,
-it is time to check if the publisher correctly used the information provided by going through the journal \GSnote{PDFF}{PDF} file sent to ATLAS Physics Office and comparing it to the \File{xml/tex} file.
+it is time to check if the publisher correctly used the information provided by going through the journal \File{PDF} file sent to ATLAS Physics Office and comparing it to the \File{xml/tex} file.
 This process, which used to be done by hand, required the officer to verify if each author ($\sim$2800) and each institute ($\sim$200) is correctly reported and matched.
 For this purpose, a tool, the proof checker, was created to automatically poll the proof directories for new PDF documents uploaded.
 If it finds a document that has not been checked before, it starts the following process:
 
 \begin{itemize}
-\item retrieve the information from the \GSnote{XML file}{Which XML file} created on Paper Submission Phase;
+\item retrieve the information from the \File{XML} file, containings the author lists provided by the ATLAS collaboration,  created on Paper Submission Phase;
 \item extract the text from the journal PDF file;
 \item parse the text from the PDF file, creating the target reference;
 \item compare the official reference obtained from the XML file with the target reference;
@@ -71,8 +77,7 @@ If it finds a document that has not been checked before, it starts the following
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{collaboration_proofs}
-  \caption{ATLAS collaboration proofs main page.
-    \GSnote[inline]{}{Please expand caption with more detail... e.g. what are the columns?}}
+  \caption{ATLAS collaboration proofs main page. This webpage include all the informations about ATLAS author lists: its ID, the reference number, XML file link, the proof sent to the Journal and the proof checker report.}
   \label{fig:collaboration_proofs}
 \end{figure}
 
