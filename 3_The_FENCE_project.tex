@@ -33,7 +33,7 @@ Each of those steps can record metadata in the ATLAS database, trigger an egroup
 \subsection{Configuration files in FENCE}%
 \label{sec:Configuration_files_in_FENCE}
 
-The FENCE framework proposal is based on configuration files that deploy content to be rendered on interfaces.\GSnote{}{Isn't this just the V part of MVC?}
+The FENCE framework proposal is based on configuration files that provide the necessary parameters and properties to build interfaces.
 The main goal of this infrastructure is to simplify many aspects of web systems requirements. The configuration files are in JSON (JavaScript Object Notation), a lightweight format for storing and transporting data, and since those can be transformed in structured objects, developers can easily define a group of properties within specific contexts.
 For instance, it is possible to set up which groups of users can have access to a certain interface.
 Another benefit of using configuration files is that major classes, that have several arguments and environment parameters, can be instantiated in a cleaner way, with just a configuration file path as argument.
