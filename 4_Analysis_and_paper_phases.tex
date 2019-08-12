@@ -251,13 +251,16 @@ For instance, on the example below, a member is constructed by simply instantiat
 \end{lstlisting}
 
 On the example above, \Class{MemberFactory} extends the core \Class{Factory} class, which handles the whole engineering that connects to the database and assembles objects. Also, an object containing the order of properties to be built is passed as an argument to the instantiated factory. In the example above, the member factory will provide the first and last name as well as the email address of a member.
-Whenever a specific new object needs to be created, a group of three files are needed: the Factory, the Builder and the Model files. The below diagram illustrates how these classes comunicate:
+Whenever a specific new object needs to be created, a group of three files are needed:
+the Factory, the Builder and the Model files. \Cref{fig:builders_and_factories}) illustrates how these classes communicate.
+
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=0.9\textwidth]{builders_and_factories}
+    \includegraphics[width=0.5\textwidth]{builders_and_factories}
     \caption{Builders and Factories workflow diagram.}%
     \label{fig:builders_and_factories}
 \end{figure}
+
 From the opposite perspective of the diagram above, Models are classes that serve as an oriented object representation of the information. They define several sets and get methods that handle specific properties of the object. These models are used in Builders, where the actual query is set and database columns are associated to a model set method. Finally, a Factory calls its corresponding Builder and also contains an inventory, which may be empty, of other Factories that are related to this object.
 
 The \Class{Workflow}, \Class{Messenger}, \Class{EgroupManager} and \Class{User} classes, along with the MBF infrastructure made possible the development of the Analysis/Phase 0 system workflow, well represented by \cref{fig:Glance_Papers_Phase0}.
