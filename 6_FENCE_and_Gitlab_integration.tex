@@ -7,23 +7,51 @@
 \label{sec:FENCE_and_Gitlab_integration}
 %------------------------------------------------------------------------------
 
-As mentioned above, the FENCE Analysis Phase 0 project originated from the requirement to have an automatic creation of \GSnote{Gitlab}{Git} repositories for each Analysis or publication. So Phase 0 interface has some features that triggers the communication with Gitlab. The integration was already mentioned in \GSnote{section 5.1}{change to ref}, but it will be described in details in this section.
+As mentioned above, the FENCE Analysis Phase 0 project originated from the requirement to have an automatic creation of Git repositories for each Analysis or publication. So Phase 0 interface has some features that triggers the communication with Gitlab. The integration was already mentioned in \ref{sec:Automatic_document_creation}, but it will be described in details in this section.
 
 %------------------------------------------------------------------------------
 \subsection{GitLab structure to organise analysis groups and repositories}%
 \label{sec:Gitlab_structure_to_organise_Analysis_groups_and_repositories}
 
 Analysis groups and repositories are created in GitLab under the atlas-physics-office group. Each leading Physics, Combined Performance group or a System Detector/Activity coordination is labelled as a category with four letters in FENCE Analysis systems.
-\GSnote{For example}{Just make a table of the full list of these groups for reference...}, the leading Top Quark physics group is \texttt{TOPQ} while the Electron/Gamma Combined Performance group is \texttt{EGAM}.
+
+\begin{table}[]
+\centering
+\begin{tabular}{ll}
+BPHY & B physics WG                 \\
+EGAM & e/gamma CP                   \\
+EXOT & Exotics WG                   \\
+FTAG & Flavour tag CP               \\
+HDBS & Higgs \& Diboson Searches WG \\
+HIGG & Higgs WG                     \\
+HION & Heavy Ions WG                \\
+IDTR & Inner Detector Tracking CP   \\
+JETM & Jet/Etmiss CP                \\
+MUON & Muon CP                      \\
+PMGR & Physics Modelling Group      \\
+SIMU & Simulation                   \\
+STAT & Statistics Committee         \\
+STDM & Standard Model WG            \\
+SUSY & SUSY WG                      \\
+TAUP & Tau CP                       \\
+TOPQ & Top WG                       \\
+UPPH & Upgrade Physics             
+\end{tabular}
+\caption{List of Leading Groups and description }
+\label{tab:my-table}
+\end{table}
+
+
+For example, the leading Top Quark physics group is \texttt{TOPQ} while the Electron/Gamma Combined Performance group is \texttt{EGAM}.
 The ID of a Phase 0 FENCE entry is therefore labelled: \texttt{ANA-GROUP-YEAR-NN} where GROUP can be \texttt{TOPQ}, \texttt{HIGG} or \texttt{EGAM}, for example.
 \texttt{YEAR} is the year when the document was created and \texttt{NN} is a two digit number.
 For instance, ANA-SUSY-2019-04 for the 4th Analysis FENCE entry created in the SUSY group in 2019.
 
 An analysis group may evolve into a Paper, a CONF or a PUB note. The IDs of those documents are therefore respectively \texttt{GROUP-YEAR-NN}, \texttt{CONF-GROUP-YEAR-NN} or \texttt{PUB-GROUP-YEAR-NN}.
-\IBnote{}{Aren't these the old names?}
+\IBnote{}{Aren't these the old names?}\Maurizionote{}{not sure which names we want to use. t.b.d.}
 This naming convention preserves the backward compatibility with the different entries used for each type of document before Phase 0 creation.
 
-In PO-Gitlab, as effort has been made to make the document IDs are more logical.
+In PO-Gitlab, an effort has been made to make the document IDs  more logical.
 They are labelled: \texttt{ANA-GROUP-YEAR-NN-INTn} for an internal note,
 \texttt{ANA-GROUP-YEAR-NN-PAPER} for a paper,
 \texttt{ANA-GROUP-YEAR-NN-CONF} for a CONF note,
@@ -37,8 +65,7 @@ This can be seen in \cref{fig:Gitlab_repository} where the \gitlab interface for
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{Gitlab_repository}
-  \caption{Screenshot of the substructure of a HIGG Gitlab repository.
-    \GSnote[inline]{}{Expand this caption more}}%
+  \caption{Screenshot of the substructure of a HIGG Gitlab repository. The main group atlas-physics-office is shown on the top. The HIGG subgroup is selected, and its ANA-HIGG-2017-08 subgroup is expanded. A repository for the PAPER, and one for the Internal Note number 1 are created under ANA-HIGG-2017-08}%
   \label{fig:Gitlab_repository}
 \end{figure}
 
@@ -84,7 +111,7 @@ The creation of the configuration of the repositories holding the document is do
 FENCE and Gitlab also interact while handling the author list of a publication.
 Creating the author list at first circulation will trigger a request for the existence of the \gitlab repository associated to the publication through the Gitlab API\@.
 In the transition period from the old to the current system,
-if the repository did not exist, the author list would have been stored on \GSnote{AFS}{First time mentioning it... maybe remove AFS and rephrase it somehow} file system.
+if the repository did not exist, the author list would have been stored on a volume under the Andrew distribuited File System (AFS) directly accessible, for instance, through a terminal session.
 The old system is now deprecated.
 Nowadays a \gitlab repository associated to the paper is a mandatory prerequisite, and to force the user to use it,
 FENCE will not allow the creation of the author list until the repository, if missing, is created.
@@ -103,7 +130,7 @@ On first circulation, new files are added to \gitlab, while on following circula
   \label{fig:paper_authorlist_section}
 \end{figure}
 
-\GSnote{}{Rephrase as: a way in which we protect against user mistakes are through two common errors: ...}Another interaction is needed to avoid two types of errors that will result in a blocker operation:
+\GSnote{}{Rephrase as: a way in which we protect against user mistakes are through two common errors: ...}\Maurizionote{}{tbd: there's no user mistake. It's a control we have to run to make sure we are using the correct method when pushing to Gitlab}Another interaction is needed to avoid two types of errors that will result in a blocker operation:
 trying to update a file that does not exist, or adding a file that is already in the repository.
-Through the \GSnote{Gitlab API FENCE}{???}, it is possible to check the status of a file before committing to avoid these two kind of errors.
+Through the ENCE–GitLab classes it is possible to check the status of a file before committing to avoid these two kind of errors.
 This verification is important because users could accidentally have renamed/deleted/moved one of these files without FENCE being able to record such activities.
