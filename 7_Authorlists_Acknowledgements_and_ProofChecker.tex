@@ -7,6 +7,28 @@
 \label{sec:Authorlists_Acknowledgements_and_ProofChecker}
 %------------------------------------------------------------------------------
 
+The author list is the inventory of qualified authors at a given date, which is also called the reference date. Every paper has a related list of qualified authors with a reference date which corresponds to the creation date of that list at the Paper Phase 1, just before the first circulation to the collaboration. Qualified authors are active physicists, still contributing to the maintenance and the operations of the collaboration.
+Some of them are retired people benefiting from their pre-data credits (worked before the data era), called signing-only authors.
+Between FENCE PHASE~1 and PHASE~2, some people may get exceptional authorship because of their involvement in the analysis or the paper,
+even if they are not yet a qualified author.
+Therefore the author list is updated to include \enquote{exception} authors.The special cases are studied by the Authorship Committee and proposed for approval to the Spokesperson who will agree or not for this exception after reviewing the proposal from the authorship committee.
+
+All this information is stored in the ATLAS database and managed by FENCE\@.
+\Cref{fig:authorlist_generation} shows the full list of members (active and retired), their institutes and the related metadata that is needed to generate a full report of members and institutes.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/authorlist_generation.png}
+  \caption{FENCE author list generation interface. On the left a list of author list institutes is available; on the center of the screen all the authors are listed (yellow ones are signing-only  authors). On the top of the page the interface allow the users to have the author list on a selected date (top left) or for a given paper (top center).}%
+  \label{fig:authorlist_generation}
+\end{figure}
+
+The acknowledgements are a legal paragraph that the collaboration agrees to add in each paper to thank for their financial support.
+They do not change very often, but may include or suppress a Funding Agency or Foundation at a given date.
+Therefore, an acknowledgement file is built for each paper at a specific date, which is called the reference date.
+
+The proof checker is a tool provided mainly for the ATLAS PO members to compare the final publication (PDF file) of author lists and acknowledgement provided by the journal with ATLAS data (XML file). The main purpose of the proof checker is to identify inconsistencies between data provided to the journal and what the journal will produce as final output. A report of this comparison, one for every version of the proof, is available to the ATLAS PO members so they can check the results.
+
 %------------------------------------------------------------------------------
 \subsection{Author lists and Acknowledgments files}%
 \label{sec:Author_lists_and_acknowledgments_files}
@@ -15,7 +37,7 @@
 
 Both files, the author list and the acknowledgements, are built using the FENCE framework, see \cref{fig:authorlist_interface},
 and automatically pushed to the appropriate Gitlab repository, using the FENCE--\gitlab integration (\cref{sec:FENCE-Gitlab_Integration}).
-Their integration into the paper is straightforward for a \GSnote{future submission to a journal}{Not everything is submitted to a journal, what about CONF and PUB?}.
+Their integration into the paper is straightforward for a future submission to a journal.
 FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
 
 The author list is build by the Fence framework into an \File{XML} file which contains a lot of infomation. It is composed of three main blocks:
@@ -45,7 +67,7 @@ The acknowledgment \File{tex} file is built using a standard template and is fil
 The FENCE author list interface, \cref{fig:authorlist_interface}, shows the complete set of author lists created for each ATLAS paper that has been published since 2009 or is being submitted.
 They are easily filtered using the SEARCH box option.
 All the columns are self-explanatory; in the last column the dropdown menu gives access to the author list location, which can be distinguished by the icon:
-a download icon (\GSnote{\faDownload}{Please make FontAwesome part of the detail ATLAS latex. Please. This is probably more for Ian, but ok.}) means the files are stored in AFS and can be downloaded.
+a download icon {\faDownload}) means the files are stored in AFS and can be downloaded.
 A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitlab repository. The author lists can be downloaded or displayed in GitLab in different file formats:
 \begin{itemize}
 \item tex: used by the Journal to include the author list into the publication
@@ -80,8 +102,6 @@ If it finds a document that has not been checked before, it starts the following
   \caption{ATLAS collaboration proofs main page. This webpage include all the informations about ATLAS author lists: its ID, the reference number, XML file link, the proof sent to the Journal and the proof checker report.}
   \label{fig:collaboration_proofs}
 \end{figure}
-
-\GSnote{}{What does an example good proof and bad proof look like?}
 
 The main difficulties in this process rely on extracting the content from the PDF file; the text is not easily retrieved for different reasons.
 One is that there are a lot of elements that have to be identified and ignored, such as row numbers, watermarks, footers and headings.
@@ -133,7 +153,7 @@ For this purpose the concept of Levenshtein distance (\cref{app:proofs:levenshte
 so that a weighted index of similarity can be obtained to \enquote{decide} what is matched with what, and to then effectively start checking for anomalies.
 
 At the end, a feature was developed to help the script to evaluate as perfect matches some that would not otherwise.
-A list of \enquote{synonyms} is created for every entry, author or institute,
+A list of \enquote{synonyms} (\cref{sec:Proof_checker_synonyms}) is created for every entry, author or institute,
 to teach the proof checker to validate similar strings when the differences are due only to problems we have when decoding the text from the PDF file.
 So, for instance, if author \textbf{A. Filipčič} is not found in the target reference,
 but from the PDF entries we extracted an author with name \textbf{A. Filipž ciž c}, then,
@@ -146,10 +166,9 @@ The list of synonyms is updated manually, but a tool, the Synonym webpage (\cref
 \subsubsection{Proof checker synonyms}%
 \label{sec:Proof_checker_synonyms}
 
-The comparison between PDF file (coming from the Journals) and the XML file (provided by FENCE author list interface) generates a lot of false positives as described in \cref{sec:Report_page}:
-special characters encoding can be different, countries sometimes are spelled differently, etc.
-To avoid having a huge list of these kind of false positives in the report page that can confuse the users, the new version of the proof checker includes a \enquote{synonyms} list that allows the comparison script to understand if the difference is a real error or another correct way to display the same information.
-\IBnote{}{Isn't this a repeat of the above?}
+As introduced on \cref{sec:Proof_checker_functionalities} the comparison between PDF file and the XML file could generates a lot of false positives.
+To avoid having a huge list of these kind of false positives in the report page, that can confuse the users, the new version of the proof checker includes a \enquote{synonyms} list that allows the comparison script to understand if the difference is a real error or another correct way to display the same information.
+
 An example of a working synonym is:
 \begin{table}[htb]
   \centering

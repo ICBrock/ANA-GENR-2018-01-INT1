@@ -48,7 +48,6 @@ The ID of a Phase 0 FENCE entry is therefore labelled: \texttt{ANA-GROUP-YEAR-NN
 For instance, ANA-SUSY-2019-04 for the 4th Analysis FENCE entry created in the SUSY group in 2019.
 
 An analysis group may evolve into a Paper, a CONF or a PUB note. The IDs of those documents are therefore respectively \texttt{GROUP-YEAR-NN}, \texttt{CONF-GROUP-YEAR-NN} or \texttt{PUB-GROUP-YEAR-NN}.
-\IBnote{}{Aren't these the old names?}\Maurizionote{}{not sure which names we want to use. t.b.d.}
 This naming convention preserves the backward compatibility with the different entries used for each type of document before Phase 0 creation.
 
 In PO-Gitlab, an effort has been made to make the document IDs  more logical.
@@ -116,10 +115,9 @@ The old system is now deprecated.
 Nowadays a \gitlab repository associated to the paper is a mandatory prerequisite, and to force the user to use it,
 FENCE will not allow the creation of the author list until the repository, if missing, is created.
 
-If the repository is set up, the act of clicking on the button labeled as \enquote{Create and push to Gitlab}, see \cref{fig:paper_authorlist_section},
-first creates the author list according to its reference date in all the different formats (\File{xml}, \File{tex} and others).
-It then starts a dialog among the two platforms, FENCE and \gitlab, to correctly push the files through the \gitlab API \Class{add} method.
-On first circulation, new files are added to \gitlab, while on following circulations, the files, as they already exist, are pushed through the \Class{update} method.
+The act of clicking on the button labeled as \enquote{Create and push to Gitlab}, see \cref{fig:paper_authorlist_section}, creates the author list according to its reference date in all the different formats (\File{xml}, \File{tex} and others).
+It then starts a dialog among the two platforms, FENCE and \gitlab, to correctly push the files through the \gitlab API.
+On first circulation, the files are added to \gitlab, while on following circulations, as they already exist, they are simply updated.
 
 \begin{figure}[htb]
   \centering
@@ -130,7 +128,7 @@ On first circulation, new files are added to \gitlab, while on following circula
   \label{fig:paper_authorlist_section}
 \end{figure}
 
-\GSnote{}{Rephrase as: a way in which we protect against user mistakes are through two common errors: ...}\Maurizionote{}{tbd: there's no user mistake. It's a control we have to run to make sure we are using the correct method when pushing to Gitlab}Another interaction is needed to avoid two types of errors that will result in a blocker operation:
-trying to update a file that does not exist, or adding a file that is already in the repository.
-Through the ENCE–GitLab classes it is possible to check the status of a file before committing to avoid these two kind of errors.
-This verification is important because users could accidentally have renamed/deleted/moved one of these files without FENCE being able to record such activities.
+Another level of interaction is needed to avoid an error that will result in a blocker operation.
+Through the \gitlab API we can, as said, upload a new file, or update an older one, using two different methods, \Class{add} and \Class{update}.
+Trying to add a file that already exists or to update a file that doesn't exist will result in a blocker operation, so we always need to verify which is the correct operation that applies.
+It might seem redundant as a check, because on first circulation the files are never expected to be there, and from second circulation we always know the file must already be there. But the repository can be accessed in many ways and the users can, by mistake, move, rename, delete, add files by their own. If any of these cases occurs, we need to be sure to be able to handle the situation without generating further errors.
