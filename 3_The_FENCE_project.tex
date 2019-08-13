@@ -41,7 +41,7 @@ With that, developers feel encouraged to develop more generic and robust feature
 
 Along with the configuration file concept, additional utilities were developed to guarantee the feasibility of this idea.
 \GSnote{One of these tools is the class \Class{JReader}, which parses a JSON input file, validates it and provides the JSON data to PHP code.}{How is this different from JSON Schema validation? I have a hard time understanding what it does better or different.}
-\GSNote{}{I have read the documentation of JSON Schema validation and am not sure about how different it is from this class. Do you consider it better for us to ommit this class? Nonetheless, here it is a description of how JReader works: a JSON file is passed as an argument to the constructor of the class. An abstract method 'validate' has to be defined and works similarly to a JSON schema. After that, the JSON is accessed through JReader getters.}
+\GSnote{}{I have read the documentation of JSON Schema validation and am not sure about how different it is from this class. Do you consider it better for us to ommit this class? Nonetheless, here it is a description of how JReader works: a JSON file is passed as an argument to the constructor of the class. An abstract method 'validate' has to be defined and works similarly to a JSON schema. After that, the JSON is accessed through JReader getters.}
 Another one is the FENCE \Class{Content} class, which gets some default information from configuration file to handle common interface needs, such as access control, constants and rendering outline formats.
 
 Most of the time, when a new interface is created using FENCE, the class that generates the particular content of this page is inheriting the \Class{Content} class.
