@@ -25,8 +25,8 @@ It is also possible to move forward the workflow triggering automatic messages t
 
 Phase 0 is a common stage for Papers, CONF and PUB notes workflows, before Phase 1.
 It stores some metadata divided into steps, e.g.\ meeting dates, comments, links, groups of people like Analysis Contacts and the target date for analysis finalisation, Editorial board members and meetings, approval sign-off dates.
-Each of those metadata should be filled in a \GSnote{specific order}{Is the order documented in this note?},
-\GSnote{by certain users}{Is that documented in this note? Who?} and trigger automatic emails or egroups~\cite{egroups} updates along the process.
+As described in \cref{sec:ATLAS_work_strategy}, each of those metadata should be filled in a specific order, 
+by certain users and trigger automatic emails or egroups~\cite{egroups} updates along the process.
 
 A real example is the Editorial Board request meeting and formation data step illustrated in \cref{fig:editorial_board_step}. The group convener is responsible for adding the Editorial Board request meeting title, date, comments and links. The Publication Committee Chair is responsible for appointing the Editorial Board members and fill the date that they were appointed. Once all those information are inputed in the system, the Publication Committee Chair can proceed to the next Phase 0 step using the green button. With the click of the button, the Editorial Board egroup is automatically formed with all its members and also, an email is sent informing them that they were appointed and should proceed the workflow in Analysis/Phase 0 system.
 
@@ -252,7 +252,7 @@ For instance, on the example below, a member is constructed by simply instantiat
 
 On the example above, \Class{MemberFactory} extends the core \Class{Factory} class, which handles the whole engineering that connects to the database and assembles objects. Also, an object containing the order of properties to be built is passed as an argument to the instantiated factory. In the example above, the member factory will provide the first and last name as well as the email address of a member.
 Whenever a specific new object needs to be created, a group of three files are needed:
-the Factory, the Builder and the Model files. \Cref{fig:builders_and_factories}) illustrates how these classes communicate.
+the Factory, the Builder and the Model files. \Cref{fig:builders_and_factories} illustrates how these classes communicate.
 
 \begin{figure}[htb]
     \centering
