@@ -42,9 +42,17 @@ With that, developers feel encouraged to develop more generic and robust feature
 Along with the configuration file concept, additional utilities were developed to guarantee the feasibility of this idea.
 \GSnote{One of these tools is the class \Class{JReader}, which parses a JSON input file, validates it and provides the JSON data to PHP code.}{How is this different from JSON Schema validation? I have a hard time understanding what it does better or different.}
 \GOnote{}{I have read the documentation of JSON Schema validation and am not sure about how different it is from this class. Do you consider it better for us to ommit this class? Nonetheless, here it is a description of how JReader works: a JSON file is passed as an argument to the constructor of the class. An abstract method 'validate' has to be defined and works similarly to a JSON schema. With that, JSON is parsed and validated, but also, constants are replaced according to environment variables or methods.}
-Another one is the FENCE \Class{Content} class, which gets some default information from configuration file to handle common interface needs, such as access control, constants and rendering outline formats.
+Another one is the FENCE \Class{Content} class, which gets some default information from configuration file to handle common interface needs, such as access control, constants and rendering outline formats. 
 
 Most of the time, when a new interface is created using FENCE, the class that generates the particular content of this page is inheriting the \Class{Content} class.
-At the same time, the \Class{Content} class, which has a configuration file path as argument, uses \Class{JReader} to validate and access the JSON properties.
+At the same time, the \Class{Content} class, which has a configuration file path as argument, uses \Class{JReader} to validate and access the JSON properties. \Cref{fig:content_uml_diagram} shows the UML diagram of the Content class.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\textwidth]{content_uml_diagram}
+    \caption{\Class{Content} class UML diagram describing its interaction with \Class{JReader}}%
+    \label{fig:content_uml_diagram}
+\end{figure}
 
 \GSnote{}{Do you have a block-tree diagram that shows all of these relationships? Something like the one that gets generated when you run doxygen on C++ code}
+\GOnote{}{We have included the UML diagram of Content class that way, since for an internal note it would be expected that the reader understands it. In case we turn it into a pubnote, then we will have no explain better the diagram. We found doxygen even more complicated.}
