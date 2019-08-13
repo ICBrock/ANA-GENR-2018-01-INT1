@@ -7,11 +7,12 @@
 \label{sec:Analysis_and_paper_phases}
 %------------------------------------------------------------------------------
 
-For many years ATLAS used FENCE to support the approval process of Papers, CONF and PUB notes.
+For many years ATLAS used FENCE to support the approval process of Papers, CONF and PUB notes, described in \cref{sec:ATLAS_work_strategy}.
 At that time, the three types of documents and their related interfaces were considered as independent systems.
-They had different creation interfaces, different search interfaces and different workflows, all starting from the Phase 1 of the pulication process, where the first draft is reviewed and approved.
+They had different creation interfaces, different search interfaces and different workflows, all starting from the Phase 1 of the publication process, where the first draft is reviewed and approved.
 Recently, Since CERN has stopped supporting SVN~\cite{svn}, many projects at CERN changed their version control software to Git~\cite{git} so the need of a new FENCE system that could interface with this technology emerged.
-Thus, a new system called Analysis/Phase 0 was developed to communicate with GitLab~\cite{gitlab} through its API~\cite{rest_api}. It was also the opportunity to provide an interface to support and formalize the initial stages of a publication writing until a first draft is ready, the called Phase 0, before accessing the Paper, CONF or PUB note production process.
+Thus, a new system called Analysis/Phase 0 was developed to communicate with GitLab~\cite{gitlab} through its API~\cite{rest_api}. It was also the opportunity to provide an interface to support and formalize the initial stages of a publication writing until a first draft is ready, the called Phase 0, before accessing the Paper, CONF or PUB note production process. Phase 0 was introduced in section \cref{sec:ATLAS_work_strategy}.
+
 In this section, the way in which the software tools, mainly the FENCE framework, are used to achieve the Analysis/Phase 0 requirements is presented.
 In \cref{fig:Glance_Papers_Phase0}, a screenshot of the main interface of the system is shown, where the user can have an overview of all the publication basic data and Phase 0 steps.
 It is also possible to move forward the workflow triggering automatic messages that alert the responsible for the next step that they should perform an action in the system, giving them instructions.
