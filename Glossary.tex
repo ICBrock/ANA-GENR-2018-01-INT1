@@ -1,50 +1,21 @@
-% !TEX root = ANA-GENR-2018-01-INT1.tex
-% Turn off some chktex warnings.
-% chktex-file 1 chktex-file 8 chktex-file 46
+\section*{Glossary}
+\label{sec:Glossary}
 
-%------------------------------------------------------------------------------
-\section{The FENCE project}%
-\label{sec:The_FENCE_project}
-%------------------------------------------------------------------------------
-
-FENCE is an object-oriented \textit{PHP}~\cite{php} framework designed for the development of web applications.
-Since it promotes reuse, similar features are implemented from predefined software components and, therefore, it speeds up the development process and reduces maintenance costs.
-The FENCE software development process encompasses Software Engineering techniques such as requirements analysis, architecture, design, testing, deployment and maintenance in order to guarantee the quality of the software. Requirements are gathered and documented prior to the solution design and, this way, developers are able to propose broad solutions that can benefit the whole project. After any implementation is done, software tests are run to assure software correctness, robustness, extendibility and reusability.
-
-%------------------------------------------------------------------------------
-\subsection{FENCE main classes}%
-\label{sec:FENCE_main_classes}
-
-The FENCE framework is composed by a library of helper classes that are extensible program-code templates for creating objects, providing initial values and implementations of functions or methods.
-Any new class can be coded and added to the framework, enlarging its scope, to then be reused in different systems.
-One example is the \Class{GlanceSearch} class that provides methods to create search interfaces by adding only some lines of code and the specification of the search and results attributes through a configuration file.
-The \Class{SuperSearch} class offers an advanced search interface, where the user can build logic queries with AND and OR operators.
-The \Class{User} class supports the access control of the interfaces.
-The \Class{Mailer} class can be used to send automatic emails.
-Form inputs can be easily added using classes like \Class{TextInput}, \Class{DateInput} or \Class{MemberInput}, which provides a selection box with the list of all members of an experiment.
-
-The FENCE \Class{Workflow} class is another example of feature that can be inherited by the systems that are implemented using the framework.
-It can be applied to codify any process involving states and actions triggered while moving from a state to another.
-This is used extensively by the ATLAS analysis systems, which are organised in phases, each one divided into several steps.
-Each of those steps can record metadata in the ATLAS database, trigger an egroup~\cite{egroups} creation or update, an update on GitLab~\cite{gitlab}, send automatic emails and other tasks.
-
-
-%------------------------------------------------------------------------------
-\subsection{Configuration files in FENCE}%
-\label{sec:Configuration_files_in_FENCE}
-
-The FENCE framework proposal is based on configuration files that deploy content to be rendered on interfaces.\GSnote{}{Isn't this just the V part of MVC?}
-The main goal of this infrastructure is to simplify many aspects of web systems requirements.
-The configuration files are in JSON (JavaScript Object Notation), a lightweight format for storing and transporting data, and since those can be transformed in structured objects, developers can easily define a group of properties within specific contexts.
-For instance, it is possible to set up which groups of users can have access to a certain interface.
-Another benefit of using configuration files is that major classes, that have several arguments and environment parameters, can be instantiated in a cleaner way, with just a configuration file path as argument.
-With that, developers feel encouraged to develop more generic and robust features, since they can be easily reused it in the future.
-
-Along with the configuration file concept, additional utilities were developed to guarantee the feasibility of this idea.
-\GSnote{One of these tools is the class \Class{JReader}, which parses a JSON input file, validates it and provides the JSON data to PHP code.}{How is this different from JSON Schema validation? I have a hard time understanding what it does better or different.}
-Another one is the FENCE \Class{Content} class, which gets some default information from configuration file to handle common interface needs, such as access control, constants and rendering outline formats.
-
-Most of the time, when a new interface is created using FENCE, the class that generates the particular content of this page is inheriting the \Class{Content} class.
-At the same time, the \Class{Content} class, which has a configuration file path as argument, uses \Class{JReader} to validate and access the JSON properties.
-
-\GSnote{}{Do you have a block-tree diagram that shows all of these relationships? Something like the one that gets generated when you run doxygen on C++ code}
+\begin{itemize}
+\item \textbf{ASCII}: Abbreviation of American Standard Code for Information Interchange. ASCII is a character encoding that represents text in computers, telecommunications equipment\textbf{}, and other devices.
+\item \textbf{Class}: A class is the main structure of the oriented-object programming and is responsible for implementing the behaviour and also values for the state of an object.
+\item \textbf{Utils}: Utils is a FENCE class that contains useful public methods used by many other classes of the Framework.
+\item \textbf{Cronjob}: Cronjobs are commands or scripts that run periodically at fixed times.
+\item \textbf{Egroup}: E-groups are multi-purpose groups formed by CERN members which can be used as email address.
+\item \textbf{authorlist}: It is the easy-wording to say and write "author list". 
+\item \textbf{EOS file system}: EOS is a software solution that aims to provide fast and reliable multi-PetaByte disk-only storage technology for both LHC and non-LHC use-cases at CERN.
+\item \textbf{Git}: Git is a Distributed Version Control System and its aim is to manage software development projects and its files that changes over time. It stores this information in a repository.
+\item \textbf{Gitlab}: Gitlab is a web-based Git repository.
+\item \textbf{Branch}: Branches are pointers to a snapshot changes on Git.
+\item \textbf{Svn}: Apache Subversion (or SVN) was one of the most popular Version Control Systems before 2010 and it is nowadays being substituted by more modern ones as Git.
+\item \textbf{JSON}: Abbreviation of JavaScript Object Notation. JSON is a lightweight format for storing and transporting data.
+\item \textbf{XML}: Abbreviation of eXtensible Markup Language. XML it is a markup language also designed for storing and transporting data.
+\item \textbf{PHP}: PHP is a programming language commonly used for web development.
+\item \textbf{PROLOG}: PROLOG is a programming language commonly used by artificial intelligence applications.
+\item \textbf{Python}: Python is a multi-purpose, interpreted, object-oriented and high-level programming language.
+\end{itemize}

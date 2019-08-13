@@ -6,6 +6,9 @@
 \section{Author Lists, Acknowledgements and the Proofs Checker}%
 \label{sec:Authorlists_Acknowledgements_and_ProofChecker}
 %------------------------------------------------------------------------------
+\subsection{Author lists and Acknowledgments files}%
+\label{sec:Author_lists_and_acknowledgments_files}
+
 
 The author list is the inventory of qualified authors at a given date, which is also called the reference date. Every paper has a related list of qualified authors with a reference date which corresponds to the creation date of that list at the Paper Phase 1, just before the first circulation to the collaboration. Qualified authors are active physicists, still contributing to the maintenance and the operations of the collaboration.
 Some of them are retired people benefiting from their pre-data credits (worked before the data era), called signing-only authors.
@@ -14,7 +17,7 @@ even if they are not yet a qualified author.
 Therefore the author list is updated to include \enquote{exception} authors.The special cases are studied by the Authorship Committee and proposed for approval to the Spokesperson who will agree or not for this exception after reviewing the proposal from the authorship committee.
 
 All this information is stored in the ATLAS database and managed by FENCE\@.
-\Cref{fig:authorlist_generation} shows the full list of members (active and retired), their institutes and the related metadata that is needed to generate a full report of members and institutes.
+\Cref{fig:authorlist_generation} shows the full list of members (active and retired), their institutes and the related metadata that is needed to generate the full report of members and institutes.
 
 \begin{figure}[htb]
   \centering
@@ -24,23 +27,15 @@ All this information is stored in the ATLAS database and managed by FENCE\@.
 \end{figure}
 
 The acknowledgements are a legal paragraph that the collaboration agrees to add in each paper to thank for their financial support.
-They do not change very often, but may include or suppress a Funding Agency or Foundation at a given date.
-Therefore, an acknowledgement file is built for each paper at a specific date, which is called the reference date.
-
-The proof checker is a tool provided mainly for the ATLAS PO members to compare the final publication (PDF file) of author lists and acknowledgement provided by the journal with ATLAS data (XML file). The main purpose of the proof checker is to identify inconsistencies between data provided to the journal and what the journal will produce as final output. A report of this comparison, one for every version of the proof, is available to the ATLAS PO members so they can check the results.
-
-%------------------------------------------------------------------------------
-\subsection{Author lists and Acknowledgments files}%
-\label{sec:Author_lists_and_acknowledgments_files}
-
-\GSnote{}{This feels sliiiiightly similar to \cref{sec:Authorlists_acknowledgments_and_ProofChecker} and perhaps combining the two will be helpful somehow...}
+They do not change very often, but they may include or suppress a Funding Agency or Foundation at a given date.
+Therefore, similarly to the author list, the acknowledgement file is built for each paper at a specific date, the reference date.
 
 Both files, the author list and the acknowledgements, are built using the FENCE framework, see \cref{fig:authorlist_interface},
 and automatically pushed to the appropriate Gitlab repository, using the FENCE--\gitlab integration (\cref{sec:FENCE-Gitlab_Integration}).
 Their integration into the paper is straightforward for a future submission to a journal.
 FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
 
-The author list is build by the Fence framework into an \File{XML} file which contains a lot of infomation. It is composed of three main blocks:
+The author list is built by the Fence framework into an \File{XML} file which contains a lot of infomation. It is composed of three main blocks:
 \begin{itemize}
 \item Header: store paper main information (\cref{app:author:xmlheader})
 \item Institutes: list of institutes and their references (\cref{app:author:xmlinstitute})
@@ -51,6 +46,12 @@ The XML file is the one used as a \enquote{role}, since it contains all the info
 It is the first one to be generated and a backup version of the first release of the author list is stored.
 
 The acknowledgment \File{tex} file is built using a standard template and is filled using the FENCE framework to retrieve the required information about the ATLAS Funding Agencies.
+
+
+%------------------------------------------------------------------------------
+
+\GSnote{}{This feels sliiiiightly similar to \cref{sec:Authorlists_acknowledgments_and_ProofChecker} and perhaps combining the two will be helpful somehow...}
+
 
 \begin{figure}[htb]
   \centering
@@ -81,11 +82,12 @@ A GitLab icon (\faGitlab) means the Paper and the files are located in a PO Gitl
 \subsection{Proof checker functionalities}
 \label{sec:Proof_checker_functionalities}
 
-Once the author list is sent to the journal together with the publication,
-it is time to check if the publisher correctly used the information provided by going through the journal \File{PDF} file sent to ATLAS Physics Office and comparing it to the \File{xml/tex} file.
+
+Once the author list is sent to the journal together with the publication, it is time to check if the publisher made correct use of the information provided, going through the journal \File{PDF} file sent back to ATLAS Physics Office and comparing it to the original \File{xml/tex} file.
 This process, which used to be done by hand, required the officer to verify if each author ($\sim$2800) and each institute ($\sim$200) is correctly reported and matched.
-For this purpose, a tool, the proof checker, was created to automatically poll the proof directories for new PDF documents uploaded.
-If it finds a document that has not been checked before, it starts the following process:
+
+The proof checker is the tool provided for the ATLAS PO members to compare the final publication (PDF file) of author lists and acknowledgement provided by the journal with ATLAS data (XML file). A report of this comparison, one for every version of the proof, is available to the ATLAS PO members so they can check the results.
+If the tool finds a proof version that has not been checked before, it starts the following process:
 
 \begin{itemize}
 \item retrieve the information from the \File{XML} file, containings the author lists provided by the ATLAS collaboration,  created on Paper Submission Phase;
