@@ -6,7 +6,7 @@
 \section{Author Lists, Acknowledgements and the Proofs Checker}%
 \label{sec:Authorlists_Acknowledgements_and_ProofChecker}
 %------------------------------------------------------------------------------
-\subsection{Author lists and Acknowledgments files}%
+\subsection{Author lists and Acknowledgements files}%
 \label{sec:Author_lists_and_acknowledgments_files}
 
 
@@ -22,7 +22,7 @@ All this information is stored in the ATLAS database and managed by FENCE\@.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{figures/authorlist_generation.png}
-  \caption{FENCE author list generation interface. On the left a list of author list institutes is available; on the center of the screen all the authors are listed (yellow ones are signing-only  authors). On the top of the page the interface allows the users to have the author list on a selected date (top left) or for a given paper (top center).}%
+  \caption{FENCE author list generation interface. On the left a list of author list institutes is available; on the cent er of the screen all the authors are listed (yellow ones are signing-only  authors). On the top of the page the interface allows the users to have the author list on a selected date (top left) or for a given paper (top center).}%
   \label{fig:authorlist_generation}
 \end{figure}
 
@@ -35,7 +35,7 @@ and automatically pushed to the appropriate Gitlab repository, using the FENCE--
 Their integration into the paper is straightforward for a future submission to a journal.
 FENCE provides an elegant way to retrieve the required information from the database (see \cref{sec:MBF_Models_Builder_and_Factories_infrastructure}) and build all the files.
 
-The author list is built by the Fence framework into an \File{XML} file which contains a lot of infomation. It is composed of three main blocks:
+The author list is built by the Fence framework into an \File{XML} file which contains a lot of information. It is composed of three main blocks:
 \begin{itemize}
 \item Header: store paper main information (\cref{app:author:xmlheader})
 \item Institutes: list of institutes and their references (\cref{app:author:xmlinstitute})
@@ -45,19 +45,17 @@ The author list is built by the Fence framework into an \File{XML} file which co
 The XML file is the one used as a \enquote{role}, since it contains all the information needed to build the other files.
 It is the first one to be generated and a backup version of the first release of the author list is stored.
 
-The acknowledgment \File{tex} file is built using a standard template and is filled using the FENCE framework to retrieve the required information about the ATLAS Funding Agencies.
+The acknowledgement \File{tex} file is built using a standard template and is filled using the FENCE framework to retrieve the required information about the ATLAS Funding Agencies.
 
 
 %------------------------------------------------------------------------------
-
-\GSnote{}{This feels sliiiiightly similar to \cref{sec:Authorlists_acknowledgments_and_ProofChecker} and perhaps combining the two will be helpful somehow...}
 
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{figures/authorlist_interface.png}%
   \caption{FENCE author list interface.
-    FENCE author list interface. This list contains all the author lists generated with some informations about their paper's reference and updates. The first five entries in the list are GitLab projects, the others are stored into AFS.}
+    FENCE author list interface. This list contains all the author lists generated with some information about their paper's reference and updates. The first five entries in the list are GitLab projects, the others are stored into AFS.}
   \label{fig:authorlist_interface}
 \end{figure}
 
@@ -90,7 +88,7 @@ The proof checker is the tool provided for the ATLAS PO members to compare the f
 If the tool finds a proof version that has not been checked before, it starts the following process:
 
 \begin{itemize}
-\item retrieve the information from the \File{XML} file, containings the author lists provided by the ATLAS collaboration,  created on Paper Submission Phase;
+\item retrieve the information from the \File{XML} file, containing the author lists provided by the ATLAS collaboration,  created on Paper Submission Phase;
 \item extract the text from the journal PDF file;
 \item parse the text from the PDF file, creating the target reference;
 \item compare the official reference obtained from the XML file with the target reference;
@@ -101,7 +99,7 @@ If the tool finds a proof version that has not been checked before, it starts th
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{collaboration_proofs}
-  \caption{ATLAS collaboration proofs main page. This webpage include all the informations about ATLAS author lists: its ID, the reference number, XML file link, the proof sent to the Journal and the proof checker report.}
+  \caption{ATLAS collaboration proofs main page. This web page include all the information about ATLAS author lists: its ID, the reference number, XML file link, the proof sent to the Journal and the proof checker report.}
   \label{fig:collaboration_proofs}
 \end{figure}
 
@@ -161,7 +159,7 @@ So, for instance, if author \textbf{A. Filipčič} is not found in the target re
 but from the PDF entries we extracted an author with name \textbf{A. Filipž ciž c}, then,
 as it has been previously verified that in the PDF file the name appears as expected, the proof checker considers it a perfect match, and skips the problem.
 A very long list of false positives can be found in the report page as \enquote{skipped items}.
-The list of synonyms is updated manually, but a tool, the Synonym webpage (\cref{sec:Synonym_webpage}), has been created to allow users to update this list themselves.
+The list of synonyms is updated manually, but a tool, the Synonym web page (\cref{sec:Synonym_webpage}), has been created to allow users to update this list themselves.
 
 
 %------------------------------------------------------------------------------
@@ -192,7 +190,7 @@ Having this as a JSON file allows the proof checker script to easily parse the r
 \subsubsection{Synonym webpage}
 \label{sec:Synonym_webpage}
 
-To manage the list of proofs checker synonyms ATLAS PO provides a webpage that allows users to search for an existing entry and manage the record synonyms.
+To manage the list of proofs checker synonyms ATLAS PO provides a web page that allows users to search for an existing entry and manage the record synonyms.
 Searching for an institute, or author, will display the list of records that match the searching criteria (\cref{fig:synonym_webpage}) and allows the users to edit the synonyms for the record.
 Clicking the edit icon shows a new page section where users can insert their own known synonym for the record.
 After confirmation, this will be added to the list of synonyms and will be taken into account by the next run of the proofs checker.
@@ -200,7 +198,7 @@ After confirmation, this will be added to the list of synonyms and will be taken
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{synonym_webpage}
-  \caption{Proof checker synonyms webpage.}
+  \caption{Proof checker synonyms web page.}
   \label{fig:synonym_webpage}
 \end{figure}
 
@@ -210,18 +208,18 @@ After confirmation, this will be added to the list of synonyms and will be taken
 
 The proofs checker provides a report after its run, one for each paper and draft version.
 This report is provided and stored in a JSON file and must be parsed to show the report results in a human readable way.
-This is done by the \texttt{proof\_report} webpage (\cref{fig:proof_report_webpage}).
+This is done by the \texttt{proof\_report} web page (\cref{fig:proof_report_webpage}).
 The report contains all the paper information plus the real comparison results split by issue sections (see \cref{app:proofs:report}).
 The JSON file contains more information than that which is displayed;
-this is done to allow the webpage to understand the correct way to show the huge amount of information and for future improvements.
-The webpage contains some \enquote{hidden} sections that are produced by the proof checker thanks to the known synonyms,
+this is done to allow the web page to understand the correct way to show the huge amount of information and for future improvements.
+The web page contains some \enquote{hidden} sections that are produced by the proof checker thanks to the known synonyms,
 and can be displayed by clicking on \enquote{Skipped +}.
 Here the page will show all the false positive results that the proofs checker found on its comparison, but that are ignored thanks to the synonyms.
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{figures/proof_report_webpage.png}
-  \caption{Proof report webpage.}
+  \caption{Proof report web page.}
   \label{fig:proof_report_webpage}
 \end{figure}
 
