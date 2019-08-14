@@ -45,14 +45,13 @@ Given the modularity of the system, new and/or more complex tasks can me added, 
 
 GitLab’s CI \GSnote{works through pipelines}{is organized using pipelines}. Each time a new commit is pushed to the repository, a pipeline is triggered.
 A pipeline is a set of jobs grouped in stages. All the jobs in the same stage are executed in parallel while each stage is only executed once the previous one has \GSnote{finished}{Just a note that there's no requirement for the stage to have finished successfully... can also only execute if the previous stage failed, for example}.
-The \GSnote{real-time verifications}{checks} are performed in \GSnote{most of the branches}{which branches? what pattern?} of the project and they are called \enquote{edit-pipelines}.
+The checks are performed in \GSnote{most of the branches}{which branches? what pattern?} of the project and they are called \enquote{edit-pipelines}.
 There are \GSnote{additional pipelines that are used when a paper is ready for submission}{which branches? when are these run?} to the arXiv and a journal. These are referred to as \enquote{submit-pipelines}.
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{editing_pipelines_1}
-  \caption{Screenshot of the edit-pipelines.
-    \GSnote[inline]{}{Expand caption. Explain that there are 4 stages in this image, with the preparation stage checking the version of the po-gitlab package, the second stage is ..., the third stage is ..., etc... This is explained in more detail in the note, so an abridged summary here is good.}}%
+  \caption{Screenshot of the edit-pipelines. These 4 different stages do checks before the publication is ready for submission, with the first stage checking the version of the po-gitlab package, the second stage running checks related to \LaTeX formatting, the third one ensuring that the ATLAS rules are being followed and the last stage testing if the document will build correctly.}%
   \label{fig:edit-pipelines}
 \end{figure}
 
@@ -83,8 +82,7 @@ There are \GSnote{additional pipelines that are used when a paper is ready for s
   \item Title and Abstract: checks that no user-defined commands (i.e.\ non-\LaTeX\ commands) are being used in the title and in the abstract.
   \end{itemize}
 
-\item \textbf{Build}: this stage builds the document itself. The PDF file of the document is not usually \GSnote{saved}{stored as an artifact} to avoid \GSnote{increase in size of the repository}{You can always store as an artifact, but mark it to expire in 24h... so this is a weird justification}.
-However, a manual job (only run when \GSnote{requested}{who requests?}) can build the document and save the PDF file as an artifact for \GSnote{the}{a} user to download.
+\item \textbf{Build}: this stage builds the document itself. As these pipelines will happen on each commit the PDF file of the document is not stored as an artifact. However, whether the PDF file is to be generated a manual job (editors can trigger it by clicking on the play button available on the interface) indicated by a gear produces and saves the document as an artifact for a user to download it.
 \end{itemize}
 
 \begin{table}[htb]
@@ -99,9 +97,7 @@ However, a manual job (only run when \GSnote{requested}{who requests?}) can buil
     NOTE & Allowed & Allowed \\
     \bottomrule
   \end{tabular}
-  \caption{Labels in legends that are allowed and not allowed in figures depending on the document type.
-    The files and figures exist checks are needed because it is rather common to forget committing a new file or figure.
-    \GSnote[inline]{}{I don't understand the caption. Please rephrase/clarify.}}%
+  \caption{Types of labels that are allowed and not allowed to be used in figures captions depending on the document type.}%
   \label{tab:labels}
 \end{table}
 
@@ -109,14 +105,14 @@ However, a manual job (only run when \GSnote{requested}{who requests?}) can buil
 \subsection{Paper submission}%
 \label{sec:Paper_submission}
 
-\GSnote{The GitLab’s CI}{The CI} also produces the required files for paper submission, using dedicated pipelines, similar to the editing ones.
+The CI also produces the required files for paper submission, using dedicated pipelines, similar to the editing ones.
 These are referred to as \texttt{submit-pipelines} here.
 A protected Git branch, named \texttt{PO-ready}, is created by default at the time of the setup of the paper repository.
 When a paper is ready for submission, an editor should create a \enquote{Merge Request}
 from the \texttt{Master} to the \texttt{PO-ready} branch.
 When this request is accepted by a Physics Office officer, the paper submission pipelines are triggered.
-In addition, any \IBnote{branch}{also tag?} created with a name of the form \texttt{PO-*} triggers the paper submission pipelines.
-These pipelines have the previously described tests, but after at the build stage a flattening of the LaTeX document happens, with the following actions:
+In addition, any branch or tag created following the pattern \texttt{PO-*} triggers the paper submission pipelines.
+These pipelines have the previously described tests but after, at the build stage, a flattening of the LaTeX document happens with the following actions:
 
 \begin{enumerate}
 \item all the source files are merged into a single \LaTeX\ source file;
@@ -131,8 +127,7 @@ Furthermore, tarballs suitable for submission to arXiv and APS journals are crea
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.9\textwidth]{editing_pipelines_2}
-  \caption{Screenshot of submit-pipelines.
-    \GSnote[inline]{}{Please expand caption more... you don't have any details of these stages in the text like you did with the edit-pipeline}}%
+  \caption{Screenshot of submit-pipelines. From left to right, the jobs check the version of the CI tools and copy bib and sty files along with the flattened \LaTeX\ document to a special folder. Straight after, it handles all figures and tables renaming and labeling them according to APS journals specifications. Then, at finalize stage, the flattened document is updated with the newly named figures and tables. And, in the last two steps the document is properly built producing the bbl file needed for the journal and so the tarballs for the public web-pages.}%
   \label{fig:submit-pipelines}
 \end{figure}
 
