@@ -7,9 +7,9 @@
 \label{sec:The_FENCE_project}
 %------------------------------------------------------------------------------
 
-FENCE is an object-oriented \textit{PHP}~\cite{php} framework designed for the development of web applications.
+FENCE is an object-oriented \textit{PHP}~\cite{php} framework designed for the development of web applications. It encompasses the concepts of encapsulation, data abstraction, polymorphism and inheritance. A class can be defined as a template that describes the behaviour that the object of its type support. FENCE assembles classes to build applications by making extensive use of configuration files. Configuration files are loaded into the engine at each request to then generate the HTML response to the user’s browser.
 Since it promotes reuse, similar features are implemented from predefined software components and, therefore, it speeds up the development process and reduces maintenance costs.
-The FENCE software development process encompasses Software Engineering techniques such as requirements analysis, architecture, design, testing, deployment and maintenance in order to guarantee the quality of the software. Requirements are gathered and documented prior to the solution design and, this way, developers are able to propose broad solutions that can benefit the whole project. After any implementation is done, software tests are run to assure software correctness, robustness, extendibility and reusability.
+The FENCE software development process encompasses Software Engineering methods such as requirements analysis, architecture, design, testing, deployment and maintenance in order to guarantee the quality of the software. Requirements are gathered and documented prior to the solution design and, in this way, developers are able to propose broader solutions that can benefit the whole project. After any implementation is done, software tests are run to assure software correctness, robustness, extensibility and reusability. Currently, there are more than 20 ATLAS web systems in production that were developed using the FENCE framework, which facilitates their maintenance and enhancements.
 
 %------------------------------------------------------------------------------
 \subsection{FENCE main classes}%
@@ -17,13 +17,13 @@ The FENCE software development process encompasses Software Engineering techniqu
 
 The FENCE framework is composed by a library of helper classes that are extensible program-code templates for creating objects, providing initial values and implementations of functions or methods.
 Any new class can be coded and added to the framework, enlarging its scope, to then be reused in different systems.
-One example is the \Class{GlanceSearch} class that provides methods to create search interfaces by adding only some lines of code and the specification of the search and results attributes through a configuration file.
+One example is the \Class{Search} class that provides methods to create search interfaces by adding only some lines of code and the specification of the search and results attributes through a configuration file.
 The \Class{SuperSearch} class offers an advanced search interface, where the user can build logic queries with AND and OR operators.
 The \Class{User} class supports the access control of the interfaces.
 The \Class{Mailer} class can be used to send automatic emails.
 Form inputs can be easily added using classes like \Class{TextInput}, \Class{DateInput} or \Class{MemberInput}, which provides a selection box with the list of all members of an experiment.
 
-The FENCE \Class{Workflow} class is another example of feature that can be inherited by the systems that are implemented using the framework.
+The FENCE \Class{Workflow} class is another feature that can be inherited by the systems that are implemented using the framework.
 It can be applied to codify any process involving states and actions triggered while moving from a state to another.
 This is used extensively by the ATLAS analysis systems, which are organised in phases, each one divided into several steps.
 Each of those steps can record metadata in the ATLAS database, trigger an egroup~\cite{egroups} creation or update, an update on GitLab~\cite{gitlab}, send automatic emails and other tasks.
