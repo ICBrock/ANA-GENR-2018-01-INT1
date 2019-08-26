@@ -101,7 +101,7 @@ class Action
 \begin{lstlisting}
 public function is_expert()
 {
-    return $this->has_egroup("MailboxForwarding-atglance") || $this->has_egroup("fence-developers");
+    return $this->has_egroup("fence-developers");
 }
 
 public function hasPermission($permission)
